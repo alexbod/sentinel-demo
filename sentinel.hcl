@@ -1,4 +1,4 @@
 policy "aws-instance-type" {
-  source            = "./aws-instance-type.sentinel"
+  source            = "./aws-time.sentinel"
   enforcement_level = "advisory"
 }
