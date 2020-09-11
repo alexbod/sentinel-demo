@@ -9,6 +9,7 @@ variable "aws_region" {
 
 variable "bucket_name" {
    description = "Name of the bucket to create"
+  default = "Some bucket"
 }
 
 variable "bucket_acl" {
