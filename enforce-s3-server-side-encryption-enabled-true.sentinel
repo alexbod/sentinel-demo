@@ -21,7 +21,7 @@ for violatingS3Buckets as address, bucket {
 }
 
 // debug code
-// print(violatingS3Buckets)
+print(violatingS3Buckets)
 
 main = rule {
 	length(violatingS3Buckets) == 0
