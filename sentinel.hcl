@@ -1,4 +1,4 @@
-policy "aws-restrict-s3-buckets" {
-  source            = "./restrict-s3-buckets.sentinel"
+policy "restrict-s3-buckets" {
+  //source            = "./restrict-s3-buckets.sentinel"
   enforcement_level = "advisory"
 }
