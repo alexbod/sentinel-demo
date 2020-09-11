@@ -25,6 +25,11 @@ resource "aws_s3_bucket" "bucket" {
   bucket = "${var.bucket_name}"
   acl    = "${var.bucket_acl}" 
   
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+  
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -40,21 +45,9 @@ resource "aws_s3_bucket" "bucket" {
   }
   
   logging {
-    target_bucket = "roger-bucket"
+    target_bucket = "test-bucket"
   }
   
-  tags {
-    name        = "Test"
-    Owner = "roger@test.com"
-    website = "true"
-    application_id = "456"
-    stack_name = "test"
-    description = "test"
-    termination_date = "06/29/2020"
-    created_by = "test"
-    data_class = "protected"
-    environment = "dev" 
-  }
 }
 
 output "sse" {
