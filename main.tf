@@ -1,3 +1,19 @@
+variable "aws_region" {
+  description = "AWS region"
+  default = "us-east-1"
+}
+
+resource "aws_s3_bucket" "b" {
+  bucket = "my-tf-test-bucket"
+  acl    = "private"
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}
+
+/*
 terraform {
   required_version = ">= 0.11.7"
 }
@@ -54,7 +70,7 @@ output "sse" {
   value = "${aws_s3_bucket.bucket.server_side_encryption_configuration.0.rule.0.apply_server_side_encryption_by_default.0.sse_algorithm}"
 }
 
-/*
+//
 provider "aws" {
   region = "us-east-1"
 }
