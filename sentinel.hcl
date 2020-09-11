@@ -1,4 +1,3 @@
-policy "restrict-s3-buckets" {
-  //source            = "./restrict-s3-buckets.sentinel"
-  enforcement_level = "advisory"
+policy "enforce-s3-server-side-encryption-enabled-true" {
+    enforcement_level = "soft-mandatory"
 }
