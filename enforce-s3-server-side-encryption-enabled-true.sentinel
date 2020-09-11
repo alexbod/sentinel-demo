@@ -1,5 +1,12 @@
 import "tfplan/v2" as tfplan
 
+
+ALLOWED_UNENCRYPTED = [
+  "b",
+  "bucket2",
+]
+
+
 //find all aws_s3_bucket that will be created/updated and don't have serveri side encryption block
 violatingS3Buckets = filter tfplan.resource_changes as _, rc {
 	rc.type is "aws_s3_bucket" and
