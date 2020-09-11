@@ -1,4 +1,4 @@
 policy "aws-instance-type" {
-  source            = "./aws-time.sentinel"
+  source            = "./restrict-s3-buckets.sentinel"
   enforcement_level = "advisory"
 }
