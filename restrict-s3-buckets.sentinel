@@ -1,12 +1,12 @@
-//import "tfplan"
+import "tfplan"
 import "tfconfig"
 import "types"
 
 # Get all S3 buckets from all modules
 get_s3_buckets = func() {
     buckets = []
-    for tfconfig.module_paths as path {
-        buckets += values(tfconfig.module(path).resources.aws_s3_bucket) else []
+    for tfplan.module_paths as path {
+        buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
     }
     return buckets
 }
