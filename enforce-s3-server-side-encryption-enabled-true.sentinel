@@ -17,7 +17,11 @@ violatingS3Buckets = filter tfplan.resource_changes as _, rc {
 }
 
 for violatingS3Buckets as address, bucket {
-	print(address + " " + bucket + " does not have server side encryption configured.")
+	print(bucket)
+}
+
+for violatingS3Buckets as address, bucket {
+	print(address + " does not have server side encryption configured.")
 }
 
 main = rule {
