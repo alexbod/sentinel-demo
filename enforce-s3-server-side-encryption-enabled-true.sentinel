@@ -7,7 +7,7 @@ ALLOWED_UNENCRYPTED = [
 ]
 
 
-//find all aws_s3_bucket that will be created/updated and don't have serveri side encryption block
+// Find all aws_s3_bucket that will be created/updated and don't have serveri side encryption block
 violatingS3Buckets = filter tfplan.resource_changes as _, rc {
 	rc.type is "aws_s3_bucket" and
 		rc.mode is "managed" and
@@ -17,12 +17,9 @@ violatingS3Buckets = filter tfplan.resource_changes as _, rc {
 }
 
 for violatingS3Buckets as address, bucket {
-	print(address + " does not have server side encryption configured.")
+	print(address + " " + bucket + " does not have server side encryption configured.")
 }
 
-// debug code
-print(violatingS3Buckets)
-
 main = rule {
-	length(violatingS3Buckets) == 0
+	(length(violatingS3Buckets) == 0) and (acl_allowed)
 }
