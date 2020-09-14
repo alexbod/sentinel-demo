@@ -18,8 +18,9 @@ violatingS3Buckets = filter tfplan.resource_changes as _, rc {
 
 for violatingS3Buckets as address, bucket {
 	print(bucket)
-	print(bucket["change"]["after"]["bucket"])
-	bucket["change"]["after"]["bucket"]in allowed_s3_unencrypted
+	print(bucket.change.after.bucket)
+	//print(bucket["change"]["after"]["bucket"])
+	//bucket["change"]["after"]["bucket"] in allowed_s3_unencrypted
 }
 
 // Rule to allow unencrypted S3 buckts fromthe list
