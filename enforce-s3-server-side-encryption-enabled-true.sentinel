@@ -1,7 +1,7 @@
 import "tfplan/v2" as tfplan
 
 
-ALLOWED_UNENCRYPTED = [
+allowed_s3_unencrypted = [
   "b",
   "bucket2",
 ]
@@ -16,9 +16,13 @@ violatingS3Buckets = filter tfplan.resource_changes as _, rc {
 			length(rc.change.after.server_side_encryption_configuration) == 0)
 }
 
-for violatingS3Buckets as address, bucket {
-	print(bucket)
-	print(bucket["change"]["after"]["bucket"])
+// Rule to allow unencrypted S3 buckts fromthe list
+s3_unencrypted = rule {
+	for violatingS3Buckets as address, bucket {
+		print(bucket)
+		print(bucket["change"]["after"]["bucket"])
+		r.applied.acl in allowed_s3_unencrypted
+	}
 }
 
 for violatingS3Buckets as address, bucket {
@@ -26,5 +30,5 @@ for violatingS3Buckets as address, bucket {
 }
 
 main = rule {
-	(length(violatingS3Buckets) == 0) and (acl_allowed)
+	(length(violatingS3Buckets) == 0) and (s3_unencrypted)
 }
