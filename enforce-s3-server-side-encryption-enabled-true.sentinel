@@ -3,7 +3,7 @@ import "tfplan/v2" as tfplan
 
 allowed_s3_unencrypted = [
   "b",
-  "my-tf-test-bucket_test",
+  "my-tf-test-bucket",
 ]
 
 // All S3 buckets
