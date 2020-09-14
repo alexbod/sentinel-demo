@@ -18,6 +18,7 @@ violatingS3Buckets = filter tfplan.resource_changes as _, rc {
 
 for violatingS3Buckets as address, bucket {
 	print(bucket)
+	print(bucket["change"]["after"]["bucket"])
 }
 
 for violatingS3Buckets as address, bucket {
