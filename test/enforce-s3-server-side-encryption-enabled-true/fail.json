@@ -3,6 +3,6 @@
     "tfplan/v2": "../../mock-tfplan-pass-v2.sentinel/mock-tfplan-fail-v2.sentinel"
   },
   "test": {
-    "main": true
+    "main": false
   }
 }
