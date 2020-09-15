@@ -1,0 +1,40 @@
+created_at = "2020-09-15T12:22:47.315Z"
+message = "Update enforce-s3-server-side-encryption-enabled-true.sentinel"
+speculative = false
+is_destroy = false
+target_addrs = null
+
+variables = {
+	"AWS_ACCESS_KEY_ID": {
+		"category":  "env",
+		"sensitive": false,
+	},
+	"AWS_SECRET_ACCESS_KEY": {
+		"category":  "env",
+		"sensitive": false,
+	},
+}
+
+organization = {
+	"name": "alexbod",
+}
+
+workspace = {
+	"auto_apply":  false,
+	"created_at":  "2020-09-10T14:37:48.931Z",
+	"description": null,
+	"name":        "sentinel-demo",
+	"vcs_repo": {
+		"branch":             "",
+		"display_identifier": "alexbod/sentinel-demo",
+		"identifier":         "alexbod/sentinel-demo",
+		"ingress_submodules": false,
+	},
+	"working_directory": "",
+}
+
+cost_estimate = {
+	"delta_monthly_cost":    "0.0",
+	"prior_monthly_cost":    "0.0",
+	"proposed_monthly_cost": "0.0",
+}
