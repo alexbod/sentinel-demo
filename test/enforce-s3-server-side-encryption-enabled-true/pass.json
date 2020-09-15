@@ -1,6 +1,6 @@
 {
   "mock": {
-    "tfplan/v2": "../../mock-tfplan-pass-v2.sentinel/mock-tfplan-v2.sentinel"
+    "tfplan/v2": "../../mocks/mock-tfplan-pass-v2.sentinel/mock-tfplan-v2.sentinel"
   },
   "test": {
     "main": true
