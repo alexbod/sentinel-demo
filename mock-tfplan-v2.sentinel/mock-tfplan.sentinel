@@ -10,18 +10,31 @@ _modules = {
 				"b": {
 					0: {
 						"applied": {
-							"acl":                                  "private",
-							"bucket":                               "my-tf-test-bucket",
-							"bucket_prefix":                        null,
-							"cors_rule":                            [],
-							"force_destroy":                        false,
-							"grant":                                [],
-							"lifecycle_rule":                       [],
-							"logging":                              [],
-							"object_lock_configuration":            [],
-							"policy":                               null,
-							"replication_configuration":            [],
-							"server_side_encryption_configuration": [],
+							"acl":                       "private",
+							"bucket":                    "my-tf-test-bucket",
+							"bucket_prefix":             null,
+							"cors_rule":                 [],
+							"force_destroy":             false,
+							"grant":                     [],
+							"lifecycle_rule":            [],
+							"logging":                   [],
+							"object_lock_configuration": [],
+							"policy":                    null,
+							"replication_configuration": [],
+							"server_side_encryption_configuration": [
+								{
+									"rule": [
+										{
+											"apply_server_side_encryption_by_default": [
+												{
+													"kms_master_key_id": "arn:aws:kms:us-east-1:753646501470:key/00c892e8-40c4-4048-a650-0f755876503d",
+													"sse_algorithm":     "aws:kms",
+												},
+											],
+										},
+									],
+								},
+							],
 							"tags": {
 								"Environment": "Dev",
 								"Name":        "My bucket",
@@ -127,7 +140,42 @@ _modules = {
 							},
 							"server_side_encryption_configuration.#": {
 								"computed": false,
-								"new":      "0",
+								"new":      "1",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.0.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.0.rule.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.0.rule.0.%": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.0.rule.0.apply_server_side_encryption_by_default.#": {
+								"computed": false,
+								"new":      "1",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.0.rule.0.apply_server_side_encryption_by_default.0.%": {
+								"computed": false,
+								"new":      "2",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.0.rule.0.apply_server_side_encryption_by_default.0.kms_master_key_id": {
+								"computed": false,
+								"new":      "arn:aws:kms:us-east-1:753646501470:key/00c892e8-40c4-4048-a650-0f755876503d",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.0.rule.0.apply_server_side_encryption_by_default.0.sse_algorithm": {
+								"computed": false,
+								"new":      "aws:kms",
 								"old":      "",
 							},
 							"tags.%": {

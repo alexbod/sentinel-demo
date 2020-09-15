@@ -34,6 +34,20 @@ _modules = {
 					"config": {
 						"acl":    "private",
 						"bucket": "my-tf-test-bucket",
+						"server_side_encryption_configuration": [
+							{
+								"rule": [
+									{
+										"apply_server_side_encryption_by_default": [
+											{
+												"kms_master_key_id": "arn:aws:kms:us-east-1:753646501470:key/00c892e8-40c4-4048-a650-0f755876503d",
+												"sse_algorithm":     "aws:kms",
+											},
+										],
+									},
+								],
+							},
+						],
 						"tags": {
 							"Environment": "Dev",
 							"Name":        "My bucket",
@@ -43,7 +57,21 @@ _modules = {
 					"references": {
 						"acl":    [],
 						"bucket": [],
-						"tags":   [],
+						"server_side_encryption_configuration": [
+							{
+								"rule": [
+									{
+										"apply_server_side_encryption_by_default": [
+											{
+												"kms_master_key_id": [],
+												"sse_algorithm":     [],
+											},
+										],
+									},
+								],
+							},
+						],
+						"tags": [],
 					},
 				},
 			},
