@@ -1,0 +1,205 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {},
+		"path": [],
+		"resources": {
+			"aws_s3_bucket": {
+				"b": {
+					0: {
+						"applied": {
+							"acl":                                  "private",
+							"bucket":                               "my-tf-test-bucket",
+							"bucket_prefix":                        null,
+							"cors_rule":                            [],
+							"force_destroy":                        false,
+							"grant":                                [],
+							"lifecycle_rule":                       [],
+							"logging":                              [],
+							"object_lock_configuration":            [],
+							"policy":                               null,
+							"replication_configuration":            [],
+							"server_side_encryption_configuration": [],
+							"tags": {
+								"Environment": "Dev",
+								"Name":        "My bucket",
+							},
+							"website": [],
+						},
+						"destroy": false,
+						"diff": {
+							"acceleration_status": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"acl": {
+								"computed": false,
+								"new":      "private",
+								"old":      "",
+							},
+							"arn": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket": {
+								"computed": false,
+								"new":      "my-tf-test-bucket",
+								"old":      "",
+							},
+							"bucket_domain_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_prefix": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"bucket_regional_domain_name": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"cors_rule.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"force_destroy": {
+								"computed": false,
+								"new":      "false",
+								"old":      "",
+							},
+							"grant.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"hosted_zone_id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"id": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"lifecycle_rule.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"logging.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"object_lock_configuration.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"policy": {
+								"computed": false,
+								"new":      "",
+								"old":      "",
+							},
+							"region": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"replication_configuration.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"request_payer": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"server_side_encryption_configuration.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"tags.%": {
+								"computed": false,
+								"new":      "2",
+								"old":      "",
+							},
+							"tags.Environment": {
+								"computed": false,
+								"new":      "Dev",
+								"old":      "",
+							},
+							"tags.Name": {
+								"computed": false,
+								"new":      "My bucket",
+								"old":      "",
+							},
+							"versioning.#": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"website.#": {
+								"computed": false,
+								"new":      "0",
+								"old":      "",
+							},
+							"website_domain": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+							"website_endpoint": {
+								"computed": true,
+								"new":      "",
+								"old":      "",
+							},
+						},
+						"requires_new": false,
+					},
+				},
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+]
+
+terraform_version = "0.13.2"
+
+variables = {}
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+path = _modules.root.path
+resources = _modules.root.resources
