@@ -66,9 +66,20 @@ require_encryption = rule {
       }
    }
 }
+
+# Rule to require server-side encryption
+s3_in_allowed_list = rule {
+    all s3_buckets as _, instances {
+      all instances as index, r {
+        r.applied.bucket in allowed_s3_unencrypted
+        //(length(r.applied.server_side_encryption_configuration) > 0 and r.applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0].sse_algorithm is "aws:kms") else false
+      }
+   }
+}
   
 # Main rule that requires other rules to be true
 main = rule {
   #(acl_allowed and require_encryption) else true
-  require_encryption else true
+  //require_encryption else true
+  s3_in_allowed_list
 }
