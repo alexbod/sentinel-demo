@@ -11,7 +11,7 @@ allowed_s3_unencrypted = [
 get_s3_buckets = func() {
     buckets = []
     for tfplan.module_paths as path {
-            print(values(tfplan.module(path).resources.aws_s3_bucket))
+            print(values(tfplan.module(path).resources.aws_s3_bucket).applied.server_side_encryption_configuration)
             
             
             
