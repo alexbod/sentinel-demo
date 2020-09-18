@@ -21,6 +21,10 @@ get_s3_buckets = func() {
             for resources as _, r {
                 print(r[0].applied.server_side_encryption_configuration)
                 print(values(r))
+                
+                if (length(r[0].applied.server_side_encryption_configuration) > 0 and r[0].applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0].sse_algorithm is "aws:kms") {
+                  print("Yes")
+                }
             }
             
     }
