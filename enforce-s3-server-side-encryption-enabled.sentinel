@@ -13,15 +13,23 @@ get_s3_buckets = func() {
     for tfplan.module_paths as path {
             print(values(tfplan.module(path).resources.aws_s3_bucket)["applied"])
             
-            
-            
+            //bucket = values(tfplan.module(path).resources.aws_s3_bucket) else []
+
             buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
+            
             
     }
     return buckets
 }
   
 s3_buckets = get_s3_buckets()
+
+for s3_buckets as bucket {
+  print(bucket + " : " + bucket.applied)
+}
+
+
+
 
 /*
 # Allowed S3 ACLs
