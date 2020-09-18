@@ -12,6 +12,7 @@ get_s3_buckets = func() {
     for tfplan.module_paths as path {
             //print(tfplan.module(path).resources.aws_s3_bucket.applied.server_side_encryption_configuration)
             print(tfplan.module(path).resources.aws_s3_bucket)
+            print(tfplan.module(path).resources.aws_s3_bucket.applied.server_side_encryption_configuration)
             buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
             
     }
