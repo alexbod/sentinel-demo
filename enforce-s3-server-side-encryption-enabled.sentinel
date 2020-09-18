@@ -28,11 +28,11 @@ s3_buckets = get_s3_buckets()
   //print(bucket + " : " + bucket.applied)
 //}
 
-for s3_buckets as instances {
-
-      print(instances)
-   
- }
+all s3_buckets as _, instances {
+  all instances as index, r {
+    print(r.applied.server_side_encryption_configuration)
+  }
+}
 
 
 
