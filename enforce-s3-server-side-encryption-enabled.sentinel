@@ -19,7 +19,7 @@ get_s3_buckets = func() {
             
             resources = values(tfplan.module(path).resources.aws_s3_bucket) else []
             for resources as _, r {
-                print(r)
+                print(r[0])
                 print(values(r))
             }
             
