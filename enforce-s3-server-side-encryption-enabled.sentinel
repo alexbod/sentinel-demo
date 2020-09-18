@@ -3,7 +3,7 @@ import "tfplan"
 
 allowed_s3_unencrypted = [
   "b",
-  "my-tf-test-bucket",
+  "my-tf-test-bucket-test",
 ]
 
 
