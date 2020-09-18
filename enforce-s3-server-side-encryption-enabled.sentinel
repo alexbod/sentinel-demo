@@ -39,6 +39,7 @@ get_s3_buckets = func() {
 }
   
 s3_buckets = get_s3_buckets()
+print(s3_buckets)
 
 //for s3_buckets as bucket {
   //print(bucket + " : " + bucket.applied)
