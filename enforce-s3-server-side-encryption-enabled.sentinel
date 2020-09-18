@@ -1,11 +1,19 @@
 import "tfplan"
 
 
+allowed_s3_unencrypted = [
+  "b",
+  "my-tf-test-bucket-test",
+]
+
 # Get all S3 buckets from all modules
 get_s3_buckets = func() {
     buckets = []
     for tfplan.module_paths as path {
-        buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
+            //print(tfplan.module(path).resources.aws_s3_bucket.applied.server_side_encryption_configuration)
+            print(tfplan.module(path).resources.aws_s3_bucket)
+            buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
+            
     }
     return buckets
 }
