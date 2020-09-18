@@ -6,88 +6,33 @@ allowed_s3_unencrypted = [
   "my-tf-test-bucket",
 ]
 
-
-# Get all S3 buckets from all modules (unencrypted)
+# Get all unencrypted S3 buckets from all modules
 get_s3_buckets = func() {
     buckets = []
-    for tfplan.module_paths as path {
-            //print(values(tfplan.module(path).resources.aws_s3_bucket)["applied"])
-            
-            //bucket = values(tfplan.module(path).resources.aws_s3_bucket) else []
-
-            //buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
-            
+    for tfplan.module_paths as path {            
             resources = values(tfplan.module(path).resources.aws_s3_bucket) else []
-            
-            for resources as _, r {
-                print(r[0].applied.server_side_encryption_configuration)
-                print(values(r))
-                
-               if r[0].applied contains "server_side_encryption_configuration" {
-                print("No")
-                if (length(r[0].applied.server_side_encryption_configuration) > 0 and r[0].applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0].sse_algorithm is "aws:kms") {
-                  print("Yes")
-                  //buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
-                }
-               } else {
+            for resources as _, r {                
+               if r[0].applied not contains "server_side_encryption_configuration" {
                   buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
                }
-                
-                
             }
-            
     }
     return buckets
 }
   
 s3_buckets = get_s3_buckets()
-print(s3_buckets)
-
-//for s3_buckets as bucket {
-  //print(bucket + " : " + bucket.applied)
-//}
-
-
-
-/*
-# Allowed S3 ACLs
-# Don't allow public-read-write
-allowed_acls = [
-  "private",
-]
-
-# Rule to restrict S3 bucket ACLs
-acl_allowed = rule {
-    all s3_buckets as _, instances {
-      all instances as index, r {
-  	   r.applied.acl in allowed_acls
-      }
-    }
-}
-*/
-  
-# Rule to require server-side encryption
-require_encryption = rule {
-    all s3_buckets as _, instances {
-      all instances as index, r {
-        (length(r.applied.server_side_encryption_configuration) > 0 and r.applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0].sse_algorithm is "aws:kms") else false
-      }
-   }
-}
+print("Unencrypted s3 buckets: " + s3_buckets)
 
 # Rule to require server-side encryption
 s3_in_allowed_list = rule {
     all s3_buckets as _, instances {
       all instances as index, r {
         r.applied.bucket in allowed_s3_unencrypted
-        //(length(r.applied.server_side_encryption_configuration) > 0 and r.applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0].sse_algorithm is "aws:kms") else false
       }
    }
 }
   
 # Main rule that requires other rules to be true
 main = rule {
-  #(acl_allowed and require_encryption) else true
-  //require_encryption else true
   s3_in_allowed_list
 }
