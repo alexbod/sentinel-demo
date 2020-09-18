@@ -12,7 +12,12 @@ get_s3_buckets = func() {
     for tfplan.module_paths as path {
             //print(tfplan.module(path).resources.aws_s3_bucket.applied.server_side_encryption_configuration)
             print(tfplan.module(path).resources.aws_s3_bucket)
-            print(tfplan.module(path).resources.aws_s3_bucket[0])
+            //print(tfplan.module(path).resources.aws_s3_bucket)
+            
+            all tfplan.module(path).resources.aws_s3_bucket as index, r {
+              print(r.applied.server_side_encryption_configuration)
+              //(length(r.applied.server_side_encryption_configuration) > 0 and r.applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0].sse_algorithm is "aws:kms") else []
+            }
             
             
             buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
