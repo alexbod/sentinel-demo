@@ -7,7 +7,7 @@ allowed_s3_unencrypted = [
 ]
 
 
-# Get all S3 buckets from all modules
+# Get all S3 buckets from all modules (unencrypted)
 get_s3_buckets = func() {
     buckets = []
     for tfplan.module_paths as path {
@@ -27,8 +27,10 @@ get_s3_buckets = func() {
                 print("No")
                 if (length(r[0].applied.server_side_encryption_configuration) > 0 and r[0].applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0].sse_algorithm is "aws:kms") {
                   print("Yes")
-                  buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
+                  //buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
                 }
+               } else {
+                  buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
                }
                 
                 
