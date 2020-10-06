@@ -3,7 +3,7 @@ import "tfplan"
 
 allowed_s3_unencrypted = [
   "b",
-  "my-tf-test-bucket-test",
+  "my-tf-test-bucket",
 ]
 
 # Get all unencrypted S3 buckets from all modules
