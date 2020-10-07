@@ -51,6 +51,9 @@ s3_buckets = get_s3_buckets()
 
 for s3_buckets as _, instances {
 	print(instances)
+	for instances as index, r {
+		r.applied.bucket
+	}
 }
 
 # Rule to require server-side encryption
