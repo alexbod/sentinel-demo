@@ -23,7 +23,8 @@ get_s3_buckets = func() {
 }
   
 s3_buckets = get_s3_buckets()
-print s3_buckets
+print("Unencrypted s3 buckets:")
+print(s3_buckets)
 
 #for get_s3_buckets as address, bucket {
 	#print(address + " " + bucket + " does not have server side encryption configured.")
