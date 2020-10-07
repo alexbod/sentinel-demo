@@ -49,7 +49,7 @@ s3_buckets = get_s3_buckets()
 #print("Unencrypted s3 buckets:")
 #print(s3_buckets)
 
-for get_s3_buckets as _, instances {
+for s3_buckets as _, instances {
 	print(instances)
 }
 
