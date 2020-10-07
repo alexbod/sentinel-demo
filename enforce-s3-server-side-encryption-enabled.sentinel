@@ -20,7 +20,7 @@ get_s3_buckets = func() {
 			print("server_side_encryption_configuration {")
 			print("   rule {")
 			print("     apply_server_side_encryption_by_default {")
-			print("       sse_algorithm = "AES256"")
+			print('       sse_algorithm = "AES256"')
 			print("     }")
 			print("   }")
 			print(" }")
