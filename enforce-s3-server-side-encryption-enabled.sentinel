@@ -44,13 +44,13 @@ for s3_buckets as _, instances {
 		#print(r.applied.bucket)
 		if r.applied.bucket not in allowed_s3_unencrypted {
 			unencrypted_buckets = unencrypted_buckets + 1
-		  	print("\"" + r.applied.bucket + "\"" + " s3 bucket does not have server side encryption configured. Please enable server side encryption for this s3 bucket. Example:")
+		  	print("\"" + r.applied.bucket + "\"" + " s3 bucket does not have server side encryption configured.")
 		}
 	}
 }
 
 if (unencrypted_buckets > 0) {
-	print("Example:")
+	print("Please enable server side encryption. Example:")
 	print("server_side_encryption_configuration {")
 	print("   rule {")
 	print("     apply_server_side_encryption_by_default {")
