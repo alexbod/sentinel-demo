@@ -15,23 +15,8 @@ get_s3_buckets = func() {
                if r[0].applied not contains "server_side_encryption_configuration" {
                   buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
 		  if r[0].applied.bucket not in allowed_s3_unencrypted {
-		  	print(r[0].applied.bucket + " does not have server side encryption configured. Please enable server side encryption for this s3 bucket. An example:
-			  server_side_encryption_configuration {
-			    rule {
-			      apply_server_side_encryption_by_default {
-				sse_algorithm     = /"AES256/"
-			      }
-			    }
-			  }
-
-
-			  server_side_encryption_configuration {
-			    rule {
-			      apply_server_side_encryption_by_default {
-				kms_master_key_id = /"arn:aws:kms:us-east-1:753646501470:key/00c892e8-40c4-4048-a650-0f755876503d/"
-				sse_algorithm     = /"aws:kms/"
-			      }
-			    }
+		  	print(r[0].applied.bucket + " does not have server side encryption configured. Please enable server side encryption for this s3 bucket. 
+			asdasd
 			")
 		  }
                } else if r[0].applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0] not contains "sse_algorithm" {
