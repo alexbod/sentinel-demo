@@ -15,7 +15,7 @@ get_s3_buckets = func() {
                if r[0].applied not contains "server_side_encryption_configuration" {
                   buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
 		  if r[0].applied.bucket not in allowed_s3_unencrypted {
-		  	print(r[0].applied.bucket + " does not have server side encryption configured. Please enable server side encryption for this s3 bucket.")
+		  	print("\"" + r[0].applied.bucket + "\"" + " bucket does not have server side encryption configured. Please enable server side encryption for this s3 bucket.")
 			print("Example:")
 			print("server_side_encryption_configuration {")
 			print("   rule {")
@@ -38,8 +38,8 @@ get_s3_buckets = func() {
 }
   
 s3_buckets = get_s3_buckets()
-print("Unencrypted s3 buckets:")
-print(s3_buckets)
+#print("Unencrypted s3 buckets:")
+#print(s3_buckets)
 
 #for get_s3_buckets as address, bucket {
 	#print(address + " " + bucket + " does not have server side encryption configured.")
