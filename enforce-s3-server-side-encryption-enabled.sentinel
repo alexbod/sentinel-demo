@@ -15,10 +15,16 @@ get_s3_buckets = func() {
                if r[0].applied not contains "server_side_encryption_configuration" {
                   buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
 		  print(r[0].applied.bucket)
+		  if r[0].applied.bucket not in allowed_s3_unencrypted {
+		  	print "Yes"
+		  }
 		  
                } else if r[0].applied.server_side_encryption_configuration[0]["rule"][0].apply_server_side_encryption_by_default[0] not contains "sse_algorithm" {
                   buckets += values(tfplan.module(path).resources.aws_s3_bucket) else []
 		  print(r[0].applied.bucket)
+		  if r[0].applied.bucket not in allowed_s3_unencrypted {
+		  	print "Yes"
+		  }
 		  
                }
             }
