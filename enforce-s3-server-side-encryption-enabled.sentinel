@@ -50,9 +50,9 @@ s3_buckets = get_s3_buckets()
 #print(s3_buckets)
 
 for s3_buckets as _, instances {
-	print(instances)
+	#print(instances)
 	for instances as index, r {
-		r.applied.bucket
+		print(r.applied.bucket)
 	}
 }
 
