@@ -1,5 +1,5 @@
 # This policy uses the Sentinel tfplan import to require that
-# all S3 buckets have to be encrypted
+# all S3 buckets have versioning enabled
 
 ##### Imports #####
 
@@ -70,6 +70,8 @@ validate_object_versioning = func() {
     }
 
     print(r)
+    print(r.applied.versioning)
+    print(r.applied.versioning[0].enabled)
     
     # Check whether server-side encryption enabled
     if length(r.applied.versioning) else 0 == 0 or r.applied.versioning[0].enabled != "true" {
