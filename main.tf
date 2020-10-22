@@ -11,11 +11,12 @@ resource "aws_s3_bucket" "b" {
     Environment = "Dev"
   }
   
+  /*
   versioning {
     enabled = true
   }
   
-  /*
+  
   versioning_inputs = [
     {
       enabled    = true
