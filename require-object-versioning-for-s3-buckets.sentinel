@@ -78,15 +78,14 @@ validate_object_versioning = func() {
     
     # Check whether versioning is enabled
     if length(r.applied.versioning) == 36 {
-        result["object_versioning"] = false
-            if r.applied.bucket not in allowed_s3 {
-                print("S3 bucket", address, "doesn't have versioning enabled.")
-                print("Please enable versioning. Example:")
-                print("versioning {")
-                print("   enabled = true")
-                print("}")
-                result["object_versioning"] = false
-            }
+         if r.applied.bucket not in allowed_s3 {
+             print("S3 bucket", address, "doesn't have versioning enabled.")
+             print("Please enable versioning. Example:")
+             print("versioning {")
+             print("   enabled = true")
+             print("}")
+             result["object_versioning"] = false
+         }
     } else if length(r.applied.versioning) > 0 {
         if r.applied.versioning[0].enabled != true {
             if r.applied.bucket not in allowed_s3 {
