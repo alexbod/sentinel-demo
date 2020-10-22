@@ -11,6 +11,8 @@ resource "aws_s3_bucket" "b" {
     Environment = "Dev"
   }
   
+  
+  /*
   versioning_inputs = [
     {
       enabled    = true
@@ -18,7 +20,7 @@ resource "aws_s3_bucket" "b" {
     },
   ]
   
-  /*
+  
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
