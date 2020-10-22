@@ -70,7 +70,7 @@ validate_object_versioning = func() {
     }
 
     //print(r)
-    //print(r.applied.versioning)
+    print(r.applied.versioning)
     //print(r.applied.versioning[0].enabled)
     print(length(r.applied.versioning))
     //print(r.applied.versioning[0].enabled != true)
