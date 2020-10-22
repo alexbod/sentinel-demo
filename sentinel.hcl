@@ -1,3 +1,3 @@
-policy "enforce-s3-server-side-encryption-enabled" {
+policy "require-object-versioning-for-s3-buckets.sentinel" {
     enforcement_level = "advisory"
 }
