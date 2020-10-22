@@ -69,16 +69,15 @@ validate_object_versioning = func() {
       continue
     }
 
-    print(r)
-    print(r.applied.versioning)
-    print(r.applied.versioning[0].enabled)
-    print(length(r.applied.versioning))
-    print(r.applied.versioning[0].enabled != true)
-    print(length(r.applied.versioning) else 0 == 0)
+    //print(r)
+    //print(r.applied.versioning)
+    //print(r.applied.versioning[0].enabled)
+    //print(length(r.applied.versioning))
+    //print(r.applied.versioning[0].enabled != true)
+    //print(length(r.applied.versioning) else 0 == 0)
     
     # Check whether server-side encryption enabled
     if length(r.applied.versioning) else 0 == 0 or r.applied.versioning[0].enabled != true {
-      print(r.applied.versioning[0].enabled)
       if r.applied.bucket not in allowed_s3 {
          print("S3 bucket", address, "doesn't have versioning enabled.")
          print("Please enable versioning. Example:")
