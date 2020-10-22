@@ -77,7 +77,7 @@ validate_object_versioning = func() {
     //print(length(r.applied.versioning) else 0 == 0)
     
     # Check whether server-side encryption enabled
-    if length(r.applied.versioning) = 36 {
+    if length(r.applied.versioning) == 36 {
         result["object_versioning"] = false
     } else if length(r.applied.versioning) > 0 {
         if r.applied.versioning[0].enabled != true {
