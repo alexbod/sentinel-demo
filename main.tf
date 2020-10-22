@@ -11,6 +11,13 @@ resource "aws_s3_bucket" "b" {
     Environment = "Dev"
   }
   
+  versioning_inputs = [
+    {
+      enabled    = true
+      mfa_delete = null
+    },
+  ]
+  
   /*
   server_side_encryption_configuration {
     rule {
