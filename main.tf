@@ -14,9 +14,9 @@ resource "aws_vpc" "main" {
 module "vpc_flow_logs" {
   source = "trussworks/vpc-flow-logs/aws"
 
-  vpc_name       = local.vpc_name
+  vpc_name       = "VPC Test"
   vpc_id         = module.vpc.vpc_id
-  logs_retention = local.cloudwatch_logs_retention
+  /*logs_retention = local.cloudwatch_logs_retention*/
 }
 
 resource "aws_s3_bucket" "b" {
