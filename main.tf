@@ -15,7 +15,7 @@ module "vpc_flow_logs" {
   source = "trussworks/vpc-flow-logs/aws"
 
   vpc_name       = "VPC Test"
-  vpc_id         = module.vpc.vpc_id
+  vpc_id         = "74D93920-ED26-11E3-AC10-0800200C9A66"
   /*logs_retention = local.cloudwatch_logs_retention*/
 }
 
