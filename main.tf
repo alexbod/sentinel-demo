@@ -61,11 +61,11 @@ resource "aws_s3_bucket" "b" {
     Environment = "Dev"
   }
   
-  /*
+  
   versioning {
     enabled = "${var.versioning_enabled}"
   }
-  
+  /*
   
   versioning {
     enabled = true
