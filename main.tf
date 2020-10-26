@@ -2,6 +2,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
+/*
 resource "aws_vpc" "main" {
   cidr_block       = "10.0.0.0/16"
   instance_tenancy = "default"
@@ -29,7 +30,7 @@ module "vpc" {
     Environment = "dev"
   }
 }
-
+*/
 /*
   module "vpc_flow_logs" {
   source = "trussworks/vpc-flow-logs/aws"
