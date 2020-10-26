@@ -43,7 +43,7 @@ module "vpc" {
 
 
 variable "versioning_enabled" {
-  default     = "false"
+  default     = "true"
   type        = "string"
   description = "Enable versioning. Versioning is a means of keeping multiple variants of an object in the same bucket."
 }
