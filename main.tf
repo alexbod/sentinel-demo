@@ -40,13 +40,27 @@ module "vpc" {
 }
 */
 
+
+variable "versioning_enabled" {
+  default     = "true"
+  type        = "string"
+  description = "Enable versioning. Versioning is a means of keeping multiple variants of an object in the same bucket."
+}
+    
+
+      
+      
 resource "aws_s3_bucket" "b" {
-  bucket = "test-bucket"
+  bucket = "test-bucket-test"
   acl    = "private"
 
   tags = {
     Name        = "My bucket"
     Environment = "Dev"
+  }
+  
+  versioning {
+    enabled = "${var.versioning_enabled}"
   }
   
   /*
