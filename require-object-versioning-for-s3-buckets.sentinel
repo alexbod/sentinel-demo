@@ -78,6 +78,7 @@ validate_object_versioning = func() {
     
     print("Versioning:")
     print(r.applied.versioning)
+    print(ength(r.applied.versioning))
     
     # Check whether versioning is enabled
     if length(r.applied.versioning) == 36 {
