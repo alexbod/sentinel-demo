@@ -47,6 +47,7 @@ variable "versioning_enabled" {
   type        = "string"
   description = "Enable versioning. Versioning is a means of keeping multiple variants of an object in the same bucket."
 }
+
     
 
       
@@ -60,11 +61,12 @@ resource "aws_s3_bucket" "b" {
     Environment = "Dev"
   }
   
+  /*
   versioning {
     enabled = "${var.versioning_enabled}"
   }
   
-  /*
+  
   versioning {
     enabled = true
   }
