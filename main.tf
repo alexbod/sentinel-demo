@@ -11,6 +11,15 @@ resource "aws_vpc" "main" {
   }
 }
 
+resource "aws_vpc" "second_vpc" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+
+  tags = {
+    Name = "second_vpc"
+  }
+}
+
 
 # Terraform template to have VPC flow logs be sent to AWS Lambda
 
