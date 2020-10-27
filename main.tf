@@ -11,20 +11,29 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_flow_log" "example" {
-  iam_role_arn    = aws_iam_role.example.arn
-  log_destination = aws_cloudwatch_log_group.example.arn
-  traffic_type    = "ALL"
-  vpc_id          = aws_vpc.example.id
+
+# Terraform template to have VPC flow logs be sent to AWS Lambda
+
+provider "aws" {
+  region = "us-west-2"
 }
 
-resource "aws_cloudwatch_log_group" "example" {
-  name = "example"
+resource "aws_cloudwatch_log_group" "vpc_flow_log_group" {
+  name = "vpc-flow-log-group"
+  retention_in_days = 1
 }
 
-resource "aws_iam_role" "example" {
-  name = "example"
+resource "aws_flow_log" "vpc_flow_log" {
+  # log_group_name needs to exist before hand
+  # until we have a CloudWatch Log Group Resource
+  log_group_name = "${aws_cloudwatch_log_group.vpc_flow_log_group.name}"
+  iam_role_arn = "${aws_iam_role.vpc_flow_logs_role.arn}"
+  vpc_id = "vpc-XXXXXXXXX"
+  traffic_type = "ALL"
+}
 
+resource "aws_iam_role" "vpc_flow_logs_role" {
+  name = "vpc_flow_logs_role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -42,10 +51,9 @@ resource "aws_iam_role" "example" {
 EOF
 }
 
-resource "aws_iam_role_policy" "example" {
-  name = "example"
-  role = aws_iam_role.example.id
-
+resource "aws_iam_role_policy" "vpc_flow_logs_policy" {
+  name = "vpc_flow_logs_policy"
+  role = "${aws_iam_role.vpc_flow_logs_role.id}"
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -64,6 +72,77 @@ resource "aws_iam_role_policy" "example" {
   ]
 }
 EOF
+}
+
+resource "aws_iam_role" "cloudwatch_lambda_role" {
+  name = "cloudwatch_lambda_role"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "cloudwatch_lambda_policy" {
+  name = "cloudwatch_lambda_policy"
+  role = "${aws_iam_role.cloudwatch_lambda_role.id}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AWSLambdaCloudwatchPolicy",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DeleteNetworkInterface",
+        "ec2:CreateNetworkInterface"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_lambda_function" "flowlogs" {
+    s3_key = "XXXXXXXXXX"
+    function_name = "flowlogs"
+    role = "${aws_iam_role.cloudwatch_lambda_role.arn}"
+    handler = "XXXXXXXX"
+    s3_bucket = "XXXXXXX"
+    runtime = "java8"
+    vpc_config {
+    	subnet_ids = [ "subnet-XXXXXX" ]
+    	security_group_ids = [ "sg-XXXXXX" ]
+   	}
+}
+
+resource "aws_lambda_permission" "flowlog_permission" {
+  statement_id = "vpc_flow_log_activation"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.flowlogs.arn}"
+  principal = "logs.us-east-1.amazonaws.com"
+  source_arn = "${aws_cloudwatch_log_group.vpc_flow_log_group.arn}"
+}
+
+resource "aws_cloudwatch_log_subscription_filter" "flowlog_subscription_filter" {
+  depends_on = ["aws_lambda_permission.flowlog_permission"]
+  name = "cloudwatch_flowlog_lambda_subscription"
+  log_group_name = "${aws_cloudwatch_log_group.vpc_flow_log_group.name}"
+  filter_pattern = ""
+  destination_arn = "${aws_lambda_function.flowlogs.arn}"
 }
 
 
