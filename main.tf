@@ -33,7 +33,7 @@ resource "aws_flow_log" "vpc_flow_log" {
   # until we have a CloudWatch Log Group Resource
   log_group_name = "${aws_cloudwatch_log_group.vpc_flow_log_group.name}"
   iam_role_arn = "${aws_iam_role.vpc_flow_logs_role.arn}"
-  vpc_id = "vpc-XXXXXXXXX"
+  vpc_id = "main"
   traffic_type = "ALL"
 }
 
