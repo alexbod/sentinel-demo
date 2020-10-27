@@ -14,10 +14,6 @@ resource "aws_vpc" "main" {
 
 # Terraform template to have VPC flow logs be sent to AWS Lambda
 
-provider "aws" {
-  region = "us-west-2"
-}
-
 resource "aws_cloudwatch_log_group" "vpc_flow_log_group" {
   name = "vpc-flow-log-group"
   retention_in_days = 1
