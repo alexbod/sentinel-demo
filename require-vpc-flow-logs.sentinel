@@ -59,6 +59,10 @@ validate_encryption = func() {
 
   print(resource_instances)
   
+  resource_instances_flogs = find_resources_from_plan("aws_flow_log")
+
+  print(resource_instances_flogs)
+  
   
 
   # Return result with booleans which will be false if there were any violations
