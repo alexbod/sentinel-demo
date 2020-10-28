@@ -1,7 +1,7 @@
 provider "aws" {
   region = "us-east-1"
 }
-/*
+/**/
 resource "aws_vpc" "main" {
   cidr_block       = "10.0.0.0/16"
   instance_tenancy = "default"
@@ -86,7 +86,7 @@ resource "aws_iam_role_policy" "vpc_flow_logs_policy" {
 }
 EOF
 }
-*/
+
 
 /*
 ===
@@ -160,11 +160,8 @@ resource "aws_cloudwatch_log_subscription_filter" "flowlog_subscription_filter" 
   filter_pattern = ""
   destination_arn = "${aws_lambda_function.flowlogs.arn}"
 }
-*/
 
 
-
-/*
 resource "aws_vpc" "main" {
   cidr_block       = "10.0.0.0/16"
   instance_tenancy = "default"
@@ -192,8 +189,7 @@ module "vpc" {
     Environment = "dev"
   }
 }
-*/
-/*
+
   module "vpc_flow_logs" {
   source = "trussworks/vpc-flow-logs/aws"
 
@@ -201,7 +197,7 @@ module "vpc" {
   vpc_id         = 74D93920-ED26-11E3-AC10-0800200C9A66
   logs_retention = local.cloudwatch_logs_retention
 }
-*/
+
 
 
 variable "versioning_enabled" {
@@ -210,10 +206,7 @@ variable "versioning_enabled" {
   description = "Enable versioning. Versioning is a means of keeping multiple variants of an object in the same bucket."
 }
 
-    
 
-      
-      
 resource "aws_s3_bucket" "b" {
   bucket = "test-bucket-testhadsiouyadoh182u32813"
   acl    = "private"
@@ -227,7 +220,7 @@ resource "aws_s3_bucket" "b" {
   versioning {
     enabled = "${var.versioning_enabled}"
   }
-  /*
+
   
   versioning {
     enabled = true
@@ -259,11 +252,10 @@ resource "aws_s3_bucket" "b" {
       }
     }
   }
-  */
+
   
 }
 
-/*
 terraform {
   required_version = ">= 0.11.7"
 }
@@ -339,4 +331,6 @@ resource "aws_s3_bucket" "b" {
     Name        = "My bucket"
     Environment = "Dev"
   }
-}*/
+}
+*/
+
