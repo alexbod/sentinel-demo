@@ -79,6 +79,7 @@ resource "aws_iam_role_policy" "vpc_flow_logs_policy" {
 EOF
 }
 
+/*
 resource "aws_iam_role" "cloudwatch_lambda_role" {
   name = "cloudwatch_lambda_role"
   assume_role_policy = <<EOF
@@ -149,7 +150,7 @@ resource "aws_cloudwatch_log_subscription_filter" "flowlog_subscription_filter" 
   filter_pattern = ""
   destination_arn = "${aws_lambda_function.flowlogs.arn}"
 }
-
+*/
 
 
 
