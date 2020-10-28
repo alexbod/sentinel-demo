@@ -7,6 +7,7 @@ import "tfplan"
 import "strings"
 import "tfconfig"
 import "tfrun"
+import "tfstate"
 
 
 
