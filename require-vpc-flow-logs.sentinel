@@ -48,9 +48,9 @@ find_datasources_from_state = func(type) {
 
 resource_instances = find_datasources_from_state("aws_vpc")
 print(resource_instances)
-resource_instances_flogs = find_resources_from_plan("aws_flow_log")
+resource_instances_flogs = find_resources_from_state("aws_flow_log")
 print(resource_instances_flogs)
-resource_instances_s3 = find_resources_from_plan("aws_s3_bucket")
+resource_instances_s3 = find_resources_from_state("aws_s3_bucket")
 print(resource_instances_s3)
 
 
