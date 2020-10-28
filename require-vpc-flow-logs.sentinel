@@ -59,11 +59,55 @@ validate_encryption = func() {
 
   print(resource_instances)
   
+  # Loop through the resource instances
+  for resource_instances as address, r {
+
+    # Skip resources that are being destroyed
+    # to avoid unnecessary policy violations.
+    # Used to be: if length(r.diff) == 0
+    if r.destroy and not r.requires_new {
+      print("Skipping resource", address, "that is being destroyed.")
+      continue
+    }
+
+    print(r.applied.id)
+    
+    //print(r)
+    //print(r.applied.versioning)
+    //print(r.applied.versioning[0].enabled)
+    //print(length(r.applied.versioning))
+    //print(r.applied.versioning[0].enabled != true)
+    //print(length(r.applied.versioning) else 0 == 0)
+
+  }
+    
+  
   resource_instances_flogs = find_resources_from_plan("aws_flow_log")
 
   print(resource_instances_flogs)
   
-  
+  # Loop through the resource instances
+  for resource_instances_flogs as address, r {
+
+    # Skip resources that are being destroyed
+    # to avoid unnecessary policy violations.
+    # Used to be: if length(r.diff) == 0
+    if r.destroy and not r.requires_new {
+      print("Skipping resource", address, "that is being destroyed.")
+      continue
+    }
+
+    print(r.applied.id)
+    
+    //print(r)
+    //print(r.applied.versioning)
+    //print(r.applied.versioning[0].enabled)
+    //print(length(r.applied.versioning))
+    //print(r.applied.versioning[0].enabled != true)
+    //print(length(r.applied.versioning) else 0 == 0)
+
+  }
+
 
   # Return result with booleans which will be false if there were any violations
   return result
