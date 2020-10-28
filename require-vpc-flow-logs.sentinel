@@ -5,6 +5,9 @@
 
 import "tfplan"
 import "strings"
+import "tfconfig"
+import "tfrun"
+
 
 
 # Allowed unencrypted s3 buckets
