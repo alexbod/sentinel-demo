@@ -53,7 +53,6 @@ print(tfconfig.module_paths)
 
 for tfplan.module_paths as path {
     print(tfplan.module(path))
-    print(tfplan.module(path).resources[type])
     
     # Iterate over the named resources of desired type in the module
     #for tfplan.module(path).resources[type] else {} as name, instances {
@@ -62,7 +61,6 @@ for tfplan.module_paths as path {
 
 for tfconfig.module_paths as path {
     print(tfplan.module(path))
-    print(tfplan.module(path).resources[type])
     
     # Iterate over the named resources of desired type in the module
     #for tfplan.module(path).resources[type] else {} as name, instances {
@@ -298,10 +296,7 @@ allowed_roles_map = {
 # Call the validation function
 roles_validated = validate_assumed_roles(allowed_roles_map)
 
-# Main rule
-main = rule {
-  roles_validated
-}
+
 
 
 ##### Rules #####
@@ -312,5 +307,6 @@ all_buckets_encrypted = validations["encrypted"]
 
 # Main rule
 main = rule {
+  roles_validated
   all_buckets_encrypted
 }
