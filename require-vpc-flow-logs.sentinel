@@ -51,6 +51,24 @@ find_resources_from_plan = func(type) {
 print(tfplan.module_paths)
 print(tfconfig.module_paths)
 
+for tfplan.module_paths as path {
+    print(tfplan.module(path))
+    print(tfplan.module(path).resources[type])
+    
+    # Iterate over the named resources of desired type in the module
+    #for tfplan.module(path).resources[type] else {} as name, instances {
+    
+}
+
+for tfconfig.module_paths as path {
+    print(tfplan.module(path))
+    print(tfplan.module(path).resources[type])
+    
+    # Iterate over the named resources of desired type in the module
+    #for tfplan.module(path).resources[type] else {} as name, instances {
+    
+}
+
 # Function to validate that encryption used
 validate_encryption = func() {
 
