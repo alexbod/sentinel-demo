@@ -165,7 +165,53 @@ find_provider_aliases = func(type) {
   return providers
 }
 
+# Determine role_arn of a provider from its data
+determine_role_arn = func(data) {
 
+  # Return empty string if provider does not assume a role
+  role_arn_value = ""
+
+  # Check for role_arn in config
+  if (length(data["config"]) else 0) > 0 and
+     (length(data["config"]["assume_role"]) else 0) > 0 {
+    config_assume_role = data["config"]["assume_role"]
+    if config_assume_role[0]["role_arn"] else null is not null {
+      role_arn = config_assume_role[0]["role_arn"]
+      # This would only happen for Terraform 0.11 since a reference
+      # to a variable in Terraform 0.12 would end up in
+      # the references value
+      if role_arn matches "\\$\\{var\\.(.*)\\}" {
+        # role_arn of AWS provider was a Terraform 0.11 style variable
+        role_arn_variable = strings.trim_suffix(strings.trim_prefix(role_arn, "${var."), "}")
+        role_arn_value = tfplan.variables[role_arn_variable]
+      } else {
+        # role_arn of AWS provider was hard-coded role_arn
+        role_arn_value = role_arn
+      } // end determination of role_arn type
+    } // end role_arn in config test
+  } // end config test
+
+  # Check for role_arn in references
+  if (length(data["references"]) else 0) > 0 and
+     (length(data["references"]["assume_role"]) else 0) > 0 {
+    references_assume_role = data["references"]["assume_role"]
+    if references_assume_role[0]["role_arn"] else null is not null and
+       length(references_assume_role[0]["role_arn"]) > 0 {
+      role_arn = references_assume_role[0]["role_arn"][0]
+      if role_arn matches "\\$\\{var\\.(.*)\\}" {
+        # role_arn of AWS provider was a Terraform 0.11 style variable
+        role_arn_variable = strings.trim_suffix(strings.trim_prefix(role_arn, "${var."), "}")
+        role_arn_value = tfplan.variables[role_arn_variable]
+      } else if role_arn matches "var\\.(.*)" {
+        # role_arn of AWS provider was a Terraform 0.12 style variable
+        role_arn_variable = strings.trim_prefix(role_arn, "var.")
+        role_arn_value = tfplan.variables[role_arn_variable]
+      } // end determination of role_arn type
+    } // end role_arn in references test
+  } // end references test
+
+  return role_arn_value
+}
 
 
 
