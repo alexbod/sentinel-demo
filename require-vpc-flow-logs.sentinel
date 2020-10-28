@@ -53,17 +53,11 @@ print(tfconfig.module_paths)
 
 for tfplan.module_paths as path {
     print(tfplan.module(path))
-    
-    # Iterate over the named resources of desired type in the module
-    #for tfplan.module(path).resources[type] else {} as name, instances {
-    
+
 }
 
 for tfconfig.module_paths as path {
     print(tfplan.module(path))
-    
-    # Iterate over the named resources of desired type in the module
-    #for tfplan.module(path).resources[type] else {} as name, instances {
     
 }
 
