@@ -170,6 +170,8 @@ determine_role_arn = func(data) {
 
   # Return empty string if provider does not assume a role
   role_arn_value = ""
+  
+  print(data["config"])
 
   # Check for role_arn in config
   if (length(data["config"]) else 0) > 0 and
