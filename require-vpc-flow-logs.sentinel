@@ -293,7 +293,10 @@ allowed_roles_map = {
 validations = validate_encryption()
 all_buckets_encrypted = validations["encrypted"]
 
+roles_validated = validate_assumed_roles(allowed_roles_map)
+
 # Main rule
 main = rule {
+  roles_validated
   all_buckets_encrypted
 }
