@@ -213,6 +213,77 @@ determine_role_arn = func(data) {
   return role_arn_value
 }
 
+# Get assumed roles from all AWS providers
+get_assumed_roles = func() {
+
+  # Initialize empty map of roles indexed by aliases
+  assumed_roles = {}
+
+  # Get all AWS provider aliases
+  aws_providers = find_provider_aliases("aws")
+
+  # Iterate through all AWS provider aliases
+  for aws_providers as alias, data {
+    assumed_roles[alias] = determine_role_arn(data)
+  } // end aws_providers
+
+  return assumed_roles
+
+}
+
+# Validate that all assumed roles are allowed
+validate_assumed_roles = func(allowed_roles_map) {
+
+  validated = true
+
+  assumed_roles = get_assumed_roles()
+
+  # Iterate over all assumed roles used by providers
+  for assumed_roles as alias, role {
+    # Validate that each assumed role is in map
+    if role is not "" {
+      if role not in keys(allowed_roles_map) {
+        print("AWS provider with alias", alias, "has assumed role",
+              role, "that is not allowed.")
+        validated = false
+      } else {
+
+        # Get workspace name
+        workspace_name = tfrun.workspace.name
+
+        # Validate that role is allowed for current workspace
+        matched = false
+        for allowed_roles_map[role] as workspace_regex {
+          if workspace_name matches workspace_regex {
+            matched = true
+          }
+        } // end for workspace_regex
+        if not matched {
+          print("Workspace", workspace_name, "is not allowed to use role", role)
+          print("It used that role in the AWS provider with alias", alias)
+          validated = false
+        } // end matched check
+      } // end else role in allowed_roles_map
+    } // end if role is not ""
+  } // end assumed_roles loop
+  return validated
+}
+
+###### Allowed Roles #####
+allowed_roles_map = {
+  "arn:aws:iam::123412341234:role/role-dev": [
+    "(.*)-dev$",
+    "^dev-(.*)",
+  ],
+  "arn:aws:iam::567856785678:role/role-qa": [
+    "(.*)-qa$",
+    "^qa-(.*)",
+  ],
+  "arn:aws:iam::909012349090:role/role-prod": [
+    "(.*)-prod$",
+    "^prod-(.*)",
+  ],
+}
 
 
 
