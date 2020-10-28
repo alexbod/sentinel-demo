@@ -45,6 +45,9 @@ find_resources_from_plan = func(type) {
   return resources
 }
 
+print(tfplan.module_paths)
+print(tfconfig.module_paths)
+
 # Function to validate that encryption used
 validate_encryption = func() {
 
