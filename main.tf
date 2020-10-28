@@ -204,7 +204,7 @@ variable "versioning_enabled" {
       
       
 resource "aws_s3_bucket" "b" {
-  bucket = "test-bucket-test"
+  bucket = "test-bucket-testhadsiouyadoh182u32813"
   acl    = "private"
 
   tags = {
