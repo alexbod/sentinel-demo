@@ -1,0 +1,102 @@
+# This policy uses the Sentinel tfplan import to require that
+# all S3 buckets have versioning enabled
+
+##### Imports #####
+
+import "tfplan"
+import "strings"
+
+
+# Allowed s3 buckets without object versioning
+allowed_s3 = [
+  "test-adiaso897123asdasd",
+]
+
+##### Functions #####
+
+# Find all resources of a specific type from all modules using the tfplan import
+find_resources_from_plan = func(type) {
+
+  resources = {}
+
+  # Iterate over all modules in the tfplan import
+  for tfplan.module_paths as path {
+    # Iterate over the named resources of desired type in the module
+    for tfplan.module(path).resources[type] else {} as name, instances {
+      # Iterate over resource instances
+      for instances as index, r {
+
+        # Get the address of the instance
+        if length(path) == 0 {
+          # root module
+          address = type + "." + name + "[" + string(index) + "]"
+        } else {
+          # non-root module
+          address = "module." + strings.join(path, ".module.") + "." +
+                    type + "." + name + "[" + string(index) + "]"
+        }
+
+        # Add the instance to resources map, setting the key to the address
+        resources[address] = r
+      }
+    }
+  }
+
+  return resources
+}
+
+# Function to validate that object versioning is used
+validate_object_versioning = func() {
+
+  # Initialize booleans to true
+  # They will be set to false if any instances violate rules
+  result = {
+    "object_versioning": true,
+  }
+
+  # Get all resources of specified type
+  resource_instances = find_resources_from_plan("aws_kms_key")
+
+  print(resource_instances)
+  
+  # Loop through the resource instances
+  for resource_instances as address, r {
+
+    # Skip resources that are being destroyed
+    # to avoid unnecessary policy violations.
+    # Used to be: if length(r.diff) == 0
+    if r.destroy and not r.requires_new {
+      print("Skipping resource", address, "that is being destroyed.")
+      continue
+    }
+    
+    /*
+    # Check whether versioning is enabled
+    # r.applied.versioning returns an array if it's length is 1
+    if length(r.applied.versioning) != 1 or r.applied.versioning[0].enabled != true {
+        if r.applied.bucket not in allowed_s3 {
+            print("S3 bucket", address, "doesn't have versioning enabled.")
+            print("Please enable versioning. Example:")
+            print("versioning {")
+            print("   enabled = true")
+            print("}")
+            result["object_versioning"] = false
+        }
+    }*/
+
+  } // end resource instances
+
+  # Return result with booleans which will be false if there were any violations
+  return result
+}
+
+##### Rules #####
+
+# Call the validation function
+validations = validate_object_versioning()
+all_buckets_object_versioning = validations["object_versioning"]
+
+# Main rule
+main = rule {
+  all_buckets_object_versioning
+}
