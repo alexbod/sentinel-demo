@@ -2,6 +2,16 @@ provider "aws" {
   region = "us-east-1"
 }
 
+
+resource "aws_kms_key" "a" {
+  description             = "KMS key 1"
+  deletion_window_in_days = 10
+}
+
+
+
+
+/*
 resource "aws_s3_bucket" "b" {
   bucket = "my-tf-test-bucket-3123kjasd098213kjasd98213"
   acl    = "public-read"
@@ -96,9 +106,7 @@ resource "aws_iam_role_policy" "vpc_flow_logs_policy" {
 }
 EOF
 }
-/**/
 
-/*
 ===
 resource "aws_iam_role" "cloudwatch_lambda_role" {
   name = "cloudwatch_lambda_role"
