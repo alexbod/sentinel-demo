@@ -2,7 +2,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-
+/*
 resource "aws_kms_key" "a" {
   description             = "KMS key 1"
   deletion_window_in_days = 10
@@ -12,7 +12,7 @@ resource "aws_kms_key" "a" {
 
 
 
-/*
+
 resource "aws_s3_bucket" "b" {
   bucket = "my-tf-test-bucket-3123kjasd098213kjasd98213"
   acl    = "public-read"
