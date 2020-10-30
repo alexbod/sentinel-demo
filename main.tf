@@ -8,6 +8,11 @@ resource "aws_iam_access_key" "lb" {
   pgp_key = "keybase:some_person_that_exists"
 }
 
+resource "aws_iam_user" "lb" {
+  name = "loadbalancer"
+  path = "/system/"
+}
+
 
 /*
 resource "aws_kms_key" "a" {
