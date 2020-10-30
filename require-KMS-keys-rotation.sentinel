@@ -7,11 +7,6 @@ import "tfplan"
 import "strings"
 
 
-# Allowed s3 buckets without object versioning
-allowed_s3 = [
-  "test-adiaso897123asdasd",
-]
-
 ##### Functions #####
 
 # Find all resources of a specific type from all modules using the tfplan import
@@ -51,7 +46,7 @@ validate_object_versioning = func() {
   # Initialize booleans to true
   # They will be set to false if any instances violate rules
   result = {
-    "object_versioning": true,
+    "kms_keys_rotation": true,
   }
 
   # Get all resources of specified type
@@ -70,19 +65,13 @@ validate_object_versioning = func() {
       continue
     }
     
-    /*
-    # Check whether versioning is enabled
-    # r.applied.versioning returns an array if it's length is 1
-    if length(r.applied.versioning) != 1 or r.applied.versioning[0].enabled != true {
-        if r.applied.bucket not in allowed_s3 {
-            print("S3 bucket", address, "doesn't have versioning enabled.")
-            print("Please enable versioning. Example:")
-            print("versioning {")
-            print("   enabled = true")
-            print("}")
-            result["object_versioning"] = false
-        }
-    }*/
+    # Check whether key rotation is enabled
+    if r.applied.enable_key_rotation != true {
+        print("KMS key ", address, " doesn't have key rotation enabled.")
+        print("Please enable KMS key rotation. Example:")
+        print("enable_key_rotation = true")
+        result["kms_keys_rotation"] = false
+    }
 
   } // end resource instances
 
