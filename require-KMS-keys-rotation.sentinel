@@ -41,12 +41,12 @@ find_resources_from_plan = func(type) {
 }
 
 # Function to validate that object versioning is used
-validate_object_versioning = func() {
+validate_kms_keys_rotation = func() {
 
   # Initialize booleans to true
   # They will be set to false if any instances violate rules
   result = {
-    "kms_keys_rotation": true,
+    "kms_key_rotation": true,
   }
 
   # Get all resources of specified type
@@ -64,13 +64,15 @@ validate_object_versioning = func() {
       print("Skipping resource", address, "that is being destroyed.")
       continue
     }
+
+    
     
     # Check whether key rotation is enabled
     if r.applied.enable_key_rotation != true {
         print("KMS key ", address, " doesn't have key rotation enabled.")
         print("Please enable KMS key rotation. Example:")
         print("enable_key_rotation = true")
-        result["kms_keys_rotation"] = false
+        result["kms_key_rotation"] = false
     }
 
   } // end resource instances
@@ -82,10 +84,10 @@ validate_object_versioning = func() {
 ##### Rules #####
 
 # Call the validation function
-validations = validate_object_versioning()
-all_buckets_object_versioning = validations["object_versioning"]
+validations = validate_kms_keys_rotation()
+all_kms_keys_rotation = validations["kms_key_rotation"]
 
 # Main rule
 main = rule {
-  all_buckets_object_versioning
+  all_kms_keys_rotation
 }
