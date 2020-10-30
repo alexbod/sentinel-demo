@@ -1,5 +1,5 @@
 # This policy uses the Sentinel tfplan import to require that
-# all S3 buckets have versioning enabled
+# all KMS keys have kms_key_rotation enabled
 
 ##### Imports #####
 
@@ -40,7 +40,7 @@ find_resources_from_plan = func(type) {
   return resources
 }
 
-# Function to validate that object versioning is used
+# Function to validate that kms keys have rotation enabled
 validate_kms_keys_rotation = func() {
 
   # Initialize booleans to true
