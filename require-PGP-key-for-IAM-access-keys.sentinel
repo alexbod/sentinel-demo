@@ -65,7 +65,7 @@ validate_kms_keys_rotation = func() {
     
     print(r)
 
-    if length(r.applied.pgp_key) else 0 == 0 {
+    if r.applied.pgp_key == undefined {
       print("True !!!")
     } else {
       print("False !!!")
