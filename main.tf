@@ -2,10 +2,15 @@ provider "aws" {
   region = "us-east-1"
 }
 
-
+/*
 resource "aws_iam_access_key" "lb" {
   user    = aws_iam_user.lb.name
   pgp_key = "keybase:some_person_that_exists"
+}*/
+
+resource "aws_iam_access_key" "lb" {
+  user    = "someuser"
+  pgp_key = "keybase:<someuser>"
 }
 
 resource "aws_iam_user" "lb" {
