@@ -64,8 +64,12 @@ validate_kms_keys_rotation = func() {
     }
     
     print(r)
-    print(length(r.applied.pgp_key))
 
+    if length(r.applied.pgp_key) else 0 == 0 {
+      print("True !!!")
+    } else {
+      print("False !!!")
+    }
 
     /*
     # Check whether key rotation is enabled
