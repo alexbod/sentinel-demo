@@ -1,0 +1,92 @@
+# This policy uses the Sentinel tfplan import to require that
+# all KMS keys have kms_key_rotation enabled
+
+##### Imports #####
+
+import "tfplan"
+import "strings"
+
+
+##### Functions #####
+
+# Find all resources of a specific type from all modules using the tfplan import
+find_resources_from_plan = func(type) {
+
+  resources = {}
+
+  # Iterate over all modules in the tfplan import
+  for tfplan.module_paths as path {
+    # Iterate over the named resources of desired type in the module
+    for tfplan.module(path).resources[type] else {} as name, instances {
+      # Iterate over resource instances
+      for instances as index, r {
+
+        # Get the address of the instance
+        if length(path) == 0 {
+          # root module
+          address = type + "." + name + "[" + string(index) + "]"
+        } else {
+          # non-root module
+          address = "module." + strings.join(path, ".module.") + "." +
+                    type + "." + name + "[" + string(index) + "]"
+        }
+
+        # Add the instance to resources map, setting the key to the address
+        resources[address] = r
+      }
+    }
+  }
+
+  return resources
+}
+
+# Function to validate that kms keys have rotation enabled
+validate_kms_keys_rotation = func() {
+
+  # Initialize booleans to true
+  # They will be set to false if any instances violate rules
+  result = {
+    "kms_key_rotation": true,
+  }
+
+  # Get all resources of specified type
+  resource_instances = find_resources_from_plan("aws_iam_access_key")
+  
+  # Loop through the resource instances
+  for resource_instances as address, r {
+
+    # Skip resources that are being destroyed
+    # to avoid unnecessary policy violations.
+    # Used to be: if length(r.diff) == 0
+    if r.destroy and not r.requires_new {
+      print("Skipping resource", address, "that is being destroyed.")
+      continue
+    }
+    
+    print(r)
+
+    /*
+    # Check whether key rotation is enabled
+    if r.applied.enable_key_rotation != true {
+        print("KMS key ", address, " doesn't have key rotation enabled.")
+        print("Please enable KMS key rotation. Example:")
+        print("enable_key_rotation = true")
+        result["kms_key_rotation"] = false
+    }*/
+
+  } // end resource instances
+
+  # Return result with booleans which will be false if there were any violations
+  return result
+}
+
+##### Rules #####
+
+# Call the validation function
+validations = validate_kms_keys_rotation()
+all_kms_keys_rotation = validations["kms_key_rotation"]
+
+# Main rule
+main = rule {
+  all_kms_keys_rotation
+}
