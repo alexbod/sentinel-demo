@@ -2,16 +2,18 @@ provider "aws" {
   region = "us-east-1"
 }
 
-/*
-resource "aws_iam_access_key" "lb" {
-  user    = aws_iam_user.lb.name
-  pgp_key = "keybase:some_person_that_exists"
-}*/
 
 resource "aws_iam_access_key" "lb" {
   user    = "someuser"
   pgp_key = "keybase:<someuser>"
 }
+
+/*
+resource "aws_iam_access_key" "lb" {
+  user    = aws_iam_user.lb.name
+  pgp_key = "keybase:some_person_that_exists"
+}
+
 
 resource "aws_iam_user" "lb" {
   name = "loadbalancer"
@@ -53,6 +55,7 @@ resource "aws_iam_access_key" "test" {
 output "aws_iam_smtp_password_v4" {
   value = aws_iam_access_key.test.ses_smtp_password_v4
 }
+*/
 
 /*
 
