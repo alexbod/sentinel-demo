@@ -65,7 +65,7 @@ validate_kms_keys_rotation = func() {
     
     print(r)
 
-     Determine if the kms encryption attribute is computed.
+    # Determine if the kms encryption attribute is computed.
     if r.diff["pgp_key"].computed else false is true {
       print("S3 bucket", address, "has attribute sse_algorithm that is computed.")
       # If you want computed values to cause the policy to fail,
