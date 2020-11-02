@@ -65,11 +65,21 @@ validate_kms_keys_rotation = func() {
     
     print(r)
 
-    if r.applied.pgp_key == undefined {
-      print("True !!!")
+     Determine if the kms encryption attribute is computed.
+    if r.diff["pgp_key"].computed else false is true {
+      print("S3 bucket", address, "has attribute sse_algorithm that is computed.")
+      # If you want computed values to cause the policy to fail,
+      # uncomment the next line.
+      # result["kms_key_rotation"] = false
     } else {
-      print("False !!!")
-    }
+      # Check whether server-side encryption enabled
+      # by default with KMS encryption
+      if length(r.applied.pgp_key) else 0 == 0 {
+        print("S3 bucket", address,
+              "is not encrypted by default with a KMS key.")
+        result["kms_key_rotation"] = false
+      }
+    } // end encryption computed check
 
     /*
     # Check whether key rotation is enabled
