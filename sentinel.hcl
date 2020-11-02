@@ -1,8 +1,12 @@
-policy "require-KMS-keys-rotation" {
+policy "require-PGP-key-for-IAM-access-keys" {
     enforcement_level = "advisory"
 }
 
 /*
+policy "require-KMS-keys-rotation" {
+    enforcement_level = "advisory"
+}
+
 policy "require-object-versioning-for-s3-buckets" {
     enforcement_level = "advisory"
 }
