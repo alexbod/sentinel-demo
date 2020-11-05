@@ -4,6 +4,8 @@ provider "aws" {
 
 
 
+
+/*
 resource "aws_api_gateway_rest_api" "test" {
   name        = "MyDemoAPI"
   description = "This is my API for demonstration purposes"
@@ -65,7 +67,7 @@ resource "aws_api_gateway_method_settings" "method_settings" {
 }
 
 
-/*
+
 
 resource "aws_api_gateway_method_settings" "s" {
   rest_api_id = aws_api_gateway_rest_api.test.id
