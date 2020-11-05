@@ -1,5 +1,5 @@
 # This policy uses the Sentinel tfplan import to require that
-# all IAM access keys have pgp key specified
+# all API Gateway resources have logging enabled
 
 ##### Imports #####
 
@@ -40,13 +40,13 @@ find_resources_from_plan = func(type) {
   return resources
 }
 
-# Function to validate that IAM access keys have pgp key specified
-validate_pgp_key_for_IAM_access_keys = func() {
+# Function to validate logging for api gateway
+validate = func() {
 
   # Initialize booleans to true
   # They will be set to false if any instances violate rules
   result = {
-    "pgp_key_specified": true,
+    "logging_for_api_gateway": true,
   }
 
   # Get all resources of specified type
@@ -63,43 +63,17 @@ validate_pgp_key_for_IAM_access_keys = func() {
       continue
     }
     
-    print(r)
-    print(r.applied.settings[0].logging_level)
-    print(length(r.applied.settings[0].logging_level))
-    
-    # Check whether versioning is enabled
-    # r.applied.versioning returns an array if it's length is 1
+    # Check whether logging for api gateway is enabled
+    # Returns an array if its length is 1
     if length(r.applied.settings[0].logging_level) != 1 and r.applied.settings[0].logging_level != "INFO" and r.applied.settings[0].logging_level != "ERROR" {
-            print("S3 bucket", address, "doesn't have versioning enabled.")
-            print("Please enable versioning. Example:")
-            print("versioning {")
-            print("   enabled = true")
+            print("aws_api_gateway_method_settings ", address, " doesn't have logging enabled.")
+            print("Please enable logging. Example:")
+            print("settings {")
+            print("   metrics_enabled = true")
+            print("   logging_level   = \"INFO\"")
             print("}")
-            result["pgp_key_specified"] = false
+            result["logging_for_api_gateway"] = false
     }
-
-    
-    /*
-    # Determine if pgp_key attribute is computed.
-    if r.diff["settings.0.logging_level"].computed else false is true {
-      print("aws_iam_access_key ", address, " has attribute pgp_key that is computed.")
-      # If you want computed values to cause the policy to fail,
-      # uncomment the next line.
-      # result["pgp_key_specified"] = false
-      print("One")
-    } else {
-      # Check whether pgp_key attribute is specified
-      if length(r.applied.settings[0].logging_level) else 0 == 0 or r.applied.settings[0].logging_level ==  "OFF" {
-        print("aws_iam_access_key ", address, " does not have pgp_key specified.")
-        print("Please enable pgp_key for aws_iam_access_key. Example:")
-        print("pgp_key = \"<public key>\"")
-        result["pgp_key_specified"] = false
-        print("Two")
-      }
-      print("Three")
-    } // end pgp_key computed check
-    */
-
   } // end resource instances
 
   # Return result with booleans which will be false if there were any violations
@@ -109,10 +83,10 @@ validate_pgp_key_for_IAM_access_keys = func() {
 ##### Rules #####
 
 # Call the validation function
-validations = validate_pgp_key_for_IAM_access_keys()
-all_IAM_access_keys_pgp_key = validations["pgp_key_specified"]
+validations = validate()
+logging_for_api_gateway = validations["logging_for_api_gateway"]
 
 # Main rule
 main = rule {
-  all_IAM_access_keys_pgp_key
+  logging_for_api_gateway
 }
