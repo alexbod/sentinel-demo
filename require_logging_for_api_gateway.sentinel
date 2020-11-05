@@ -69,7 +69,7 @@ validate_pgp_key_for_IAM_access_keys = func() {
     
     # Check whether versioning is enabled
     # r.applied.versioning returns an array if it's length is 1
-    if length(r.applied.settings[0].logging_level) != 1 or r.applied.settings[0].logging_level ==  "OFF" {
+    if length(r.applied.settings[0].logging_level) == 1 or r.applied.settings[0].logging_level ==  "OFF" {
             print("S3 bucket", address, "doesn't have versioning enabled.")
             print("Please enable versioning. Example:")
             print("versioning {")
