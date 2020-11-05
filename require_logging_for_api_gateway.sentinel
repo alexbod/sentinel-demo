@@ -64,7 +64,7 @@ validate_pgp_key_for_IAM_access_keys = func() {
     }
     
     print(r)
-    print(r.applied.settings.0.logging_level)
+    print(r.applied.settings[0].logging_level)
     
 
     
