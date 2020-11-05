@@ -1,3 +1,8 @@
+provider "aws" {
+  region = "us-east-1"
+}
+
+
 locals {
   private_config_map = { type = "PRIVATE", vpc_endpoint_ids = var.vpc_endpoint_ids }
   regional_config_map = { type = "REGIONAL", vpc_endpoint_ids = null }
