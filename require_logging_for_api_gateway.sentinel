@@ -64,24 +64,26 @@ validate_pgp_key_for_IAM_access_keys = func() {
     }
     
     print(r)
+    print(r.applied.settings.logging_level)
+    
 
-    /*
+    
     # Determine if pgp_key attribute is computed.
-    if r.diff["pgp_key"].computed else false is true {
+    if r.diff["settings.0.logging_level"].computed else false is true {
       print("aws_iam_access_key ", address, " has attribute pgp_key that is computed.")
       # If you want computed values to cause the policy to fail,
       # uncomment the next line.
       # result["pgp_key_specified"] = false
     } else {
       # Check whether pgp_key attribute is specified
-      if length(r.applied.pgp_key) else 0 == 0 {
+      if length(r.applied.settings.logging_level) else 0 == 0 and r.applied.settings.logging_level !=  "OFF" {
         print("aws_iam_access_key ", address, " does not have pgp_key specified.")
         print("Please enable pgp_key for aws_iam_access_key. Example:")
         print("pgp_key = \"<public key>\"")
         result["pgp_key_specified"] = false
       }
     } // end pgp_key computed check
-    */
+    /**/
 
   } // end resource instances
 
