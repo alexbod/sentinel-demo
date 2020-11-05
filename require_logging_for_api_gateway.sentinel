@@ -65,6 +65,7 @@ validate_pgp_key_for_IAM_access_keys = func() {
     
     print(r)
     print(r.applied.settings[0].logging_level)
+    print(length(r.applied.settings[0].logging_level))
     
     # Check whether versioning is enabled
     # r.applied.versioning returns an array if it's length is 1
