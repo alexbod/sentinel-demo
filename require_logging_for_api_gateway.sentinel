@@ -62,6 +62,8 @@ validate_pgp_key_for_IAM_access_keys = func() {
       print("Skipping resource", address, "that is being destroyed.")
       continue
     }
+    
+    print(r)
 
     /*
     # Determine if pgp_key attribute is computed.
