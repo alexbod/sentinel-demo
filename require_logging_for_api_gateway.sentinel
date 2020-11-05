@@ -66,8 +66,21 @@ validate_pgp_key_for_IAM_access_keys = func() {
     print(r)
     print(r.applied.settings[0].logging_level)
     
+    # Check whether versioning is enabled
+    # r.applied.versioning returns an array if it's length is 1
+    if length(r.applied.settings[0].logging_level) != 1 or r.applied.settings[0].logging_level ==  "OFF" {
+        if r.applied.bucket not in allowed_s3 {
+            print("S3 bucket", address, "doesn't have versioning enabled.")
+            print("Please enable versioning. Example:")
+            print("versioning {")
+            print("   enabled = true")
+            print("}")
+            result["pgp_key_specified"] = false
+        }
+    }
 
     
+    /*
     # Determine if pgp_key attribute is computed.
     if r.diff["settings.0.logging_level"].computed else false is true {
       print("aws_iam_access_key ", address, " has attribute pgp_key that is computed.")
@@ -86,6 +99,7 @@ validate_pgp_key_for_IAM_access_keys = func() {
       }
       print("Three")
     } // end pgp_key computed check
+    */
 
   } // end resource instances
 
