@@ -74,6 +74,7 @@ validate_pgp_key_for_IAM_access_keys = func() {
       # If you want computed values to cause the policy to fail,
       # uncomment the next line.
       # result["pgp_key_specified"] = false
+      print("One")
     } else {
       # Check whether pgp_key attribute is specified
       if length(r.applied.settings[0].logging_level) else 0 == 0 or r.applied.settings[0].logging_level ==  "OFF" {
@@ -81,7 +82,9 @@ validate_pgp_key_for_IAM_access_keys = func() {
         print("Please enable pgp_key for aws_iam_access_key. Example:")
         print("pgp_key = \"<public key>\"")
         result["pgp_key_specified"] = false
+        print("Two")
       }
+      print("Three")
     } // end pgp_key computed check
 
   } // end resource instances
