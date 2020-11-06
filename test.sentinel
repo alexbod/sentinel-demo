@@ -1,0 +1,37 @@
+##### Imports #####
+import "tfconfig/v2" as tfconfig
+import "strings"
+import "types"
+
+### find_resources_by_type ###
+# Find all resources of a specific type using the tfconfig/v2 import.
+# The parameter, type, should be a string like "aws_instance".
+find_resources_by_type = func(type) {
+  resources = filter tfconfig.resources as address, r {
+    r.type is type and
+    r.mode is "managed"
+  }
+
+  return resources
+}
+
+vpc_resources = find_resources_by_type("aws_vpc")
+flow_resources = find_resources_by_type("aws_flow_log")
+vpc_with_references = []
+
+for keys(flow_resources) as flow_addr {
+  for keys(vpc_resources) as vpc_addr {
+    if flow_resources[flow_addr].config.vpc_id.references[0] == vpc_resources[vpc_addr].address {
+      append(vpc_with_references, vpc_resources[vpc_addr].address)
+      print("Found flow log ",  flow_addr)
+      print("With reference to VPC ", flow_resources[flow_addr].config.vpc_id.references[0])
+    }
+  }
+}
+
+
+main = rule { 
+    all keys(vpc_resources) as vpc_addr { 
+        vpc_with_references contains vpc_addr 
+    } 
+}
