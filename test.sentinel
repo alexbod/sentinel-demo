@@ -60,8 +60,7 @@ vpc_with_references = []
 
 for flow_resources as address, r_flow_addr {
   print(address)
-  print(address[2:])
-  print(r_flow_addr.config.vpc_id)
+  print(r_flow_addr.config.vpc_id[2:])
   for vpc_resources as address_vpc, r_vpc_addr {
     
     print(address_vpc)
