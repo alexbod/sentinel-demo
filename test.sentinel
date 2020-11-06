@@ -77,7 +77,7 @@ for flow_resources as address, r_flow_addr {
 
 for vpc_resources as address, r {
   for vpc_with_references as address_with_references, r_with_references {
-    print(r)
+    print(address)
     print(r_with_references)
     //if r.applied.bucket not in allowed_s3_unencrypted {
 
