@@ -57,6 +57,10 @@ print(flow_resources)
 
 vpc_with_references = []
 
+for vpc_resources as address, r {
+  print(r)
+}
+
 /*
 for keys(flow_resources) as flow_addr {
   for keys(vpc_resources) as vpc_addr {
