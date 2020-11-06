@@ -56,7 +56,7 @@ flow_resources = find_resources_from_config("aws_flow_log")
 #flow_resources = find_resources_by_type("aws_flow_log")
 
 vpc_with_references = []
-
+results = true
 
 for flow_resources as address, r_flow_addr {
   //print(address)
@@ -78,17 +78,8 @@ for flow_resources as address, r_flow_addr {
 for vpc_resources as address, r {
   if address not in vpc_with_references {
     print(address, "doesn't have VPC Flow Logs configured")
+    results = false
   }
-  
-  /*
-  for vpc_with_references as address_with_references, r_with_references {
-    print(address)
-    print(r_with_references)
-    //if r.applied.bucket not in allowed_s3_unencrypted {
-
-    //}
-  }
-  */
 }
 
 /*
@@ -104,7 +95,5 @@ for keys(flow_resources) as flow_addr {
 */
 
 main = rule { 
-    all keys(vpc_resources) as vpc_addr { 
-        vpc_with_references contains vpc_addr 
-    } 
+    results
 }
