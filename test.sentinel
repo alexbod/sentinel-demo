@@ -62,7 +62,7 @@ for flow_resources as address, r_flow_addr {
   for vpc_resources as address_vpc, r_vpc_addr {
     
     print("Yes")
-    //print(flow_resources[flow_addr].config.vpc_id.references[0])
+    //print(flow_resources[flow_addr].config.vpc_id)
     //print(flow_addr)
   }
 }
