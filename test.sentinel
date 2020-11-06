@@ -49,16 +49,22 @@ find_resources_from_config = func(type) {
 
 vpc_resources = find_resources_from_config("aws_vpc")
 flow_resources = find_resources_from_config("aws_flow_log")
-print(vpc_resources)
-print(flow_resources)
+//print(vpc_resources)
+//print(flow_resources)
 
 #vpc_resources = find_resources_by_type("aws_vpc")
 #flow_resources = find_resources_by_type("aws_flow_log")
 
 vpc_with_references = []
 
-for vpc_resources as address, r {
-  print(r)
+for flow_resources as address, r_flow_addr {
+  print(r_flow_addr.config.log_group_name)
+  for vpc_resources as address_vpc, r_vpc_addr {
+    
+    print("Yes")
+    //print(flow_resources[flow_addr].config.vpc_id.references[0])
+    //print(flow_addr)
+  }
 }
 
 /*
