@@ -76,9 +76,10 @@ for flow_resources as address, r_flow_addr {
 }
 
 for vpc_resources as address, r {
-  if address not it vpc_with_references {
+  if address not in vpc_with_references {
     print(address, "doesn't have VPC Flow Logs configured")
   }
+  
   /*
   for vpc_with_references as address_with_references, r_with_references {
     print(address)
