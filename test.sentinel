@@ -57,6 +57,7 @@ print(flow_resources)
 
 vpc_with_references = []
 
+/*
 for keys(flow_resources) as flow_addr {
   for keys(vpc_resources) as vpc_addr {
     if flow_resources[flow_addr].config.vpc_id.references[0] == vpc_resources[vpc_addr].address {
@@ -66,7 +67,7 @@ for keys(flow_resources) as flow_addr {
     }
   }
 }
-
+*/
 
 main = rule { 
     all keys(vpc_resources) as vpc_addr { 
