@@ -65,6 +65,7 @@ for flow_resources as address, r_flow_addr {
     if r_flow_addr.config.vpc_id[2 : length(r_flow_addr.config.vpc_id) - 4] == address_vpc {
       print("Found")
       print(address_vpc)
+      append(vpc_with_references, address_vpc)
     }
     
     //print(address_vpc)
