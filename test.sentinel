@@ -1,8 +1,10 @@
 ##### Imports #####
-import "tfconfig/v2" as tfconfig
+#import "tfconfig/v2" as tfconfig
+import "tfconfig"
 import "strings"
 import "types"
 
+/*
 ### find_resources_by_type ###
 # Find all resources of a specific type using the tfconfig/v2 import.
 # The parameter, type, should be a string like "aws_instance".
@@ -14,9 +16,45 @@ find_resources_by_type = func(type) {
 
   return resources
 }
+*/
 
-vpc_resources = find_resources_by_type("aws_vpc")
-flow_resources = find_resources_by_type("aws_flow_log")
+
+# Find all resources of specific type from all modules using the tfconfig import
+find_resources_from_config = func(type) {
+
+  resources = {}
+
+  # Iterate over all modules in the tfconfig import
+  for tfconfig.module_paths as path {
+    # Iterate over the named resources of desired type in the module
+    for tfconfig.module(path).resources[type] else {} as name, r {
+
+      # Get the address of the resource
+      if length(path) == 0 {
+        # root module
+        address = type + "." + name
+      } else {
+        # non-root module
+        address = "module." + strings.join(path, ".module.") + "." +
+                  type + "." + name
+      }
+
+      # Add the resource to resources map, setting the key to the address
+      resources[address] = r
+    }
+  }
+
+  return resources
+}
+
+vpc_resources = find_resources_from_config("aws_vpc")
+flow_resources = find_resources_from_config("aws_flow_log")
+print(vpc_resources)
+print(flow_resources)
+
+#vpc_resources = find_resources_by_type("aws_vpc")
+#flow_resources = find_resources_by_type("aws_flow_log")
+
 vpc_with_references = []
 
 for keys(flow_resources) as flow_addr {
