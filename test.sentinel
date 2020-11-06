@@ -58,7 +58,7 @@ flow_resources = find_resources_from_config("aws_flow_log")
 vpc_with_references = []
 
 for flow_resources as address, r_flow_addr {
-  print(r_flow_addr.config.log_group_name)
+  print(r_flow_addr.config.vpc_id.references[0])
   for vpc_resources as address_vpc, r_vpc_addr {
     
     print("Yes")
