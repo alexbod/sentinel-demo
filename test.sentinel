@@ -49,8 +49,8 @@ find_resources_from_config = func(type) {
 
 vpc_resources = find_resources_from_config("aws_vpc")
 flow_resources = find_resources_from_config("aws_flow_log")
-//print(vpc_resources)
-//print(flow_resources)
+print(vpc_resources)
+print(flow_resources)
 
 #vpc_resources = find_resources_by_type("aws_vpc")
 #flow_resources = find_resources_by_type("aws_flow_log")
@@ -62,7 +62,7 @@ for flow_resources as address, r_flow_addr {
   //print(address)
   //print(r_flow_addr.config.vpc_id[2 : length(r_flow_addr.config.vpc_id) - 4])
   for vpc_resources as address_vpc, r_vpc_addr {
-    print(r_flow_addr.config.references)
+    //print(r_flow_addr.config.references)
     if r_flow_addr.config.vpc_id[2 : length(r_flow_addr.config.vpc_id) - 4] == address_vpc {
       print("Found")
       print(address_vpc)
