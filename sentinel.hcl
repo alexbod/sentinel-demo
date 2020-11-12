@@ -2,7 +2,7 @@ module "timezone" {
   source = "./modules/timezone.sentinel"
 }
 
-policy "test" {
+policy "test_modules" {
     enforcement_level = "hard-mandatory"
 }
 
