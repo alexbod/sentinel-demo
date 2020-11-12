@@ -1,0 +1,15 @@
+import "http"
+import "json"
+import "decimal"
+
+httpGet = func(id, token){
+    uri = "https://timezoneapi.io/api/timezone/?" + id + "&token=" + token
+    request = http.get(uri)
+    return json.unmarshal(request.body)
+}
+
+offset = func(id, token) {
+    tz = httpGet(id, token)
+    offset = decimal.new(tz.data.datetime.offset_hours).int
+    return offset
+}
