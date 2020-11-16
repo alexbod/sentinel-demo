@@ -2,33 +2,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_api_gateway_rest_api" "test" {
-  name        = "MyDemoAPI"
-  description = "This is my API for demonstration purposes"
-}
 
-resource "aws_api_gateway_rest_api" "rest_api" {
-  name        = "ProviderBugGateway"
-  description = "This is my API for demonstration purposes"
-}
-
-resource "aws_api_gateway_integration" "integration" {
-  rest_api_id = aws_api_gateway_rest_api.rest_api.id
-  resource_id = aws_api_gateway_resource.resource.id
-  http_method = aws_api_gateway_method.method.http_method
-  type        = "MOCK"
-
-  request_templates = {
-    "application/xml" = <<EOF
-{
-   "body" : $input.json('$')
-}
-EOF
-  }
-}
-
-resource "aws_api_gateway_deployment" "deployment" {
-  depends_on  = [aws_api_gateway_integration.integration]
 
 
 /*
@@ -121,7 +95,33 @@ EOF
 */
 
 /*
+resource "aws_api_gateway_rest_api" "test" {
+  name        = "MyDemoAPI"
+  description = "This is my API for demonstration purposes"
+}
 
+resource "aws_api_gateway_rest_api" "rest_api" {
+  name        = "ProviderBugGateway"
+  description = "This is my API for demonstration purposes"
+}
+
+resource "aws_api_gateway_integration" "integration" {
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+  resource_id = aws_api_gateway_resource.resource.id
+  http_method = aws_api_gateway_method.method.http_method
+  type        = "MOCK"
+
+  request_templates = {
+    "application/xml" = <<EOF
+{
+   "body" : $input.json('$')
+}
+EOF
+  }
+}
+
+resource "aws_api_gateway_deployment" "deployment" {
+  depends_on  = [aws_api_gateway_integration.integration]
   rest_api_id = aws_api_gateway_rest_api.rest_api.id
   stage_name  = "dev"
 }
