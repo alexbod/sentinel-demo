@@ -2,96 +2,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-
-resource "aws_s3_bucket" "b" {
-  bucket = "my-tf-test-bucket-3123kjasd098213kjasd98213"
-  acl    = "public-read"
-
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-  }
-}
-
-resource "aws_vpc" "main" {
-  cidr_block       = "10.0.0.0/16"
-  instance_tenancy = "default"
-  tags = {
-    Name = "main"
-  }
-}
-
-resource "aws_vpc" "second_vpc" {
-  cidr_block       = "10.0.0.0/16"
-  instance_tenancy = "default"
-  tags = {
-    Name = "second_vpc"
-  }
-}
-resource "aws_vpc" "third_vpc" {
-  cidr_block       = "10.0.0.0/16"
-  instance_tenancy = "default"
-  tags = {
-    Name = "second_vpc"
-  }
-}
-/**/
-# Terraform template to have VPC flow logs be sent to AWS Lambda
-resource "aws_cloudwatch_log_group" "vpc_flow_log_group" {
-  name = "vpc-flow-log-group"
-  retention_in_days = 1
-}
-resource "aws_flow_log" "vpc_flow_log" {
-  # log_group_name needs to exist before hand
-  # until we have a CloudWatch Log Group Resource
-  log_group_name = "${aws_cloudwatch_log_group.vpc_flow_log_group.name}"
-  iam_role_arn = "${aws_iam_role.vpc_flow_logs_role.arn}"
-  vpc_id = "${aws_vpc.main.id}"
-  traffic_type = "ALL"
-}
-resource "aws_iam_role" "vpc_flow_logs_role" {
-  name = "vpc_flow_logs_role"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "vpc-flow-logs.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
-}
-resource "aws_iam_role_policy" "vpc_flow_logs_policy" {
-  name = "vpc_flow_logs_policy"
-  role = "${aws_iam_role.vpc_flow_logs_role.id}"
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents",
-        "logs:DescribeLogGroups",
-        "logs:DescribeLogStreams"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
-
-
-/*
 resource "aws_api_gateway_rest_api" "test" {
   name        = "MyDemoAPI"
   description = "This is my API for demonstration purposes"
@@ -151,6 +61,98 @@ resource "aws_api_gateway_method_settings" "method_settings" {
     caching_enabled = false
   }
 }
+
+/*
+resource "aws_s3_bucket" "b" {
+  bucket = "my-tf-test-bucket-3123kjasd098213kjasd98213"
+  acl    = "public-read"
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}
+
+resource "aws_vpc" "main" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+  tags = {
+    Name = "main"
+  }
+}
+
+resource "aws_vpc" "second_vpc" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+  tags = {
+    Name = "second_vpc"
+  }
+}
+resource "aws_vpc" "third_vpc" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+  tags = {
+    Name = "second_vpc"
+  }
+}
+
+# Terraform template to have VPC flow logs be sent to AWS Lambda
+resource "aws_cloudwatch_log_group" "vpc_flow_log_group" {
+  name = "vpc-flow-log-group"
+  retention_in_days = 1
+}
+resource "aws_flow_log" "vpc_flow_log" {
+  # log_group_name needs to exist before hand
+  # until we have a CloudWatch Log Group Resource
+  log_group_name = "${aws_cloudwatch_log_group.vpc_flow_log_group.name}"
+  iam_role_arn = "${aws_iam_role.vpc_flow_logs_role.arn}"
+  vpc_id = "${aws_vpc.main.id}"
+  traffic_type = "ALL"
+}
+resource "aws_iam_role" "vpc_flow_logs_role" {
+  name = "vpc_flow_logs_role"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+resource "aws_iam_role_policy" "vpc_flow_logs_policy" {
+  name = "vpc_flow_logs_policy"
+  role = "${aws_iam_role.vpc_flow_logs_role.id}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+*/
+
+/*
+
 
 
 
