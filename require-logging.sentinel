@@ -41,6 +41,9 @@ zoneslog = find_zoneid_from_plan("aws_api_gateway_method_settings")
 
 zoneslog_validated = func() {
 	result = true
+	for zoneslog as tl {
+		print(tl)
+	}
 	for zones_name as t {
 		print(t)
 		if ("${aws_api_gateway_rest_api." + t + ".id}") not in zoneslog {
