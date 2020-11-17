@@ -1,3 +1,8 @@
+policy "require-logging" {
+    enforcement_level = "hard-mandatory"
+}
+
+/*
 module "timezone" {
   source = "./modules/timezone.sentinel"
 }
@@ -6,7 +11,7 @@ policy "test_modules" {
     enforcement_level = "hard-mandatory"
 }
 
-/*
+
 policy "require_logging_for_api_gateway" {
     enforcement_level = "hard-mandatory"
 }
