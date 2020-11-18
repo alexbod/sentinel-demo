@@ -34,12 +34,32 @@ find_diff_from_plan = func(type) {
 	return resources
 }
 
+# Find diff
+find_diff_logging_level_from_plan = func(type) {
+
+	resources = []
+
+	for tfplan.module_paths as path {
+		for tfplan.module(path).resources[type] else {} as name, instances {
+			for instances as index, r {
+				resources += [r.diff["settings.0.logging_level"]["new"]]
+			}
+		}
+	}
+
+	return resources
+}
+
 name = find_name_from_plan("aws_api_gateway_rest_api")
 diff = find_diff_from_plan("aws_api_gateway_method_settings")
+diff_logging_level = find_diff_logging_level_from_plan("aws_api_gateway_method_settings")
 
 validate = func() {
 	for diff as tl {
 		print(tl)
+	}
+	for diff_logging_level as tll {
+		print(tll)
 	}
 	result = true
 	for name as t {
