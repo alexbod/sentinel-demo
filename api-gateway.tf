@@ -1,9 +1,9 @@
-
+/*
 resource "aws_api_gateway_rest_api" "test" {
   name        = "MyDemoAPI"
   description = "This is my API for demonstration purposes"
 }
-/*
+
 resource "aws_api_gateway_rest_api" "testtwo" {
   name        = "MyDemoAPI"
   description = "This is my API for demonstration purposes"
@@ -57,35 +57,9 @@ resource "aws_api_gateway_method_settings" "s" {
 
   settings {
     metrics_enabled = true
-    logging_level   = "INFO"/**/
+    logging_level   = "INFO"
   }
 }
 
 */
-
-
-
-/*
-resource "aws_api_gateway_rest_api" "test" {
-  name        = "MyDemoAPI"
-  description = "This is my API for demonstration purposes"
-}
-
-resource "aws_api_gateway_deployment" "example" {
-  rest_api_id = "${aws_api_gateway_rest_api.test.id}"
-  stage_name  = "test"
-
-  # Force re-deployments if any dependencies change
-  # https://github.com/hashicorp/terraform/issues/6613
-  # https://github.com/terraform-providers/terraform-provider-aws/issues/162
-  stage_description = <<DESCRIPTION
-${aws_api_gateway_resource.example.id}
-${aws_api_gateway_method.example.id}
-${aws_api_gateway_integration.example.id}
-DESCRIPTION
-
-  depends_on = [
-    "aws_api_gateway_integration.example",
-  ]
-}*/
   
