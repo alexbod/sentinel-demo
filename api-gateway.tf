@@ -1,13 +1,13 @@
-
+/*
 resource "aws_api_gateway_rest_api" "test" {
   name        = "MyDemoAPI"
   description = "This is my API for demonstration purposes"
 }
 
-/*resource "aws_api_gateway_rest_api" "testtwo" {
+resource "aws_api_gateway_rest_api" "testtwo" {
   name        = "MyDemoAPI"
   description = "This is my API for demonstration purposes"
-}*/
+}
 
 resource "aws_api_gateway_resource" "test" {
   rest_api_id = "${aws_api_gateway_rest_api.test.id}"
@@ -61,7 +61,7 @@ resource "aws_api_gateway_method_settings" "s" {
   }
 }
 
-
+*/
 
 
 
