@@ -62,7 +62,6 @@ validate = func() {
 		}
 	}
 	for name as t {
-		print(t)
 		if ("${aws_api_gateway_rest_api." + t + ".id}") not in diff {
 			print("aws_api_gateway_rest_api", t, "doesn't have logging enabled.")
 			print("Please enable logging. Example:")
