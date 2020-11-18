@@ -59,6 +59,7 @@ validate = func() {
 	for diff_logging_level as tl {
 		print(tl)
 		if tl != "INFO" or tl != "ERROR" {
+			print("tf != INFO")
 			result = false
 		}
 	}
