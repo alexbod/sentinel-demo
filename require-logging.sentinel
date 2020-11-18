@@ -57,9 +57,7 @@ diff_logging_level = find_diff_logging_level_from_plan("aws_api_gateway_method_s
 validate = func() {
 	result = true
 	for diff_logging_level as tl {
-		print(tl)
-		if tl != "INFO" or tl != "ERROR" {
-			print("tf != INFO")
+		if tl != "INFO" and tl != "ERROR" {
 			result = false
 		}
 	}
