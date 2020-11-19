@@ -1,4 +1,4 @@
-policy "require-logging" {
+policy "require-sqs-kms.sentinel" {
     enforcement_level = "hard-mandatory"
 }
 
