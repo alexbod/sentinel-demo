@@ -5,7 +5,7 @@ provider "aws" {
 
 
 
-
+/*
 resource "aws_s3_bucket" "b" {
   bucket = "my-tf-test-bucket-3123kjasd098213kjasd98213"
   acl    = "public-read"
@@ -92,7 +92,7 @@ resource "aws_iam_role_policy" "vpc_flow_logs_policy" {
 }
 EOF
 }
-/**/
+*/
 
 /*
 resource "aws_api_gateway_rest_api" "test" {
