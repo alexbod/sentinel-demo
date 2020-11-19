@@ -78,15 +78,9 @@ validate_encryption = func() {
 
 		# Check whether server-side encryption is enabled
 		if length(r.applied.kms_master_key_id) else 0 == 0 {
-            print("S3 bucket", address, "is not encrypted.")
+            print("SQS", address, "is not encrypted.")
             print("Please enable server side encryption. Example:")
-            print("server_side_encryption_configuration {")
-            print("   rule {")
-            print("      apply_server_side_encryption_by_default {")
-            print("         sse_algorithm = \"AES256\"")
-            print("      }")
-            print("   }")
-            print("}")
+            print("kms_master_key_id                 = \"alias/aws/sqs\"")
             result["encrypted"] = false
 		}
 
@@ -100,9 +94,8 @@ validate_encryption = func() {
 
 # Call the validation function
 validations = validate_encryption()
-all_buckets_encrypted = validations["encrypted"]
 
 # Main rule
 main = rule {
-	all_buckets_encrypted
+	validations["encrypted"]
 }
