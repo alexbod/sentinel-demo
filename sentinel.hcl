@@ -1,4 +1,4 @@
-policy "require-sqs-kms.sentinel" {
+policy "require-sqs-kms" {
     enforcement_level = "hard-mandatory"
 }
 
