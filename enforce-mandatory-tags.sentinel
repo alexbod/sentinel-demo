@@ -1,13 +1,8 @@
-# This policy uses the Sentinel tfplan import to require that all EC2 instances
-# have all mandatory tags.
-
-# Note that the comparison is case-sensitive since AWS tags are case-sensitive.
-
 ##### Imports #####
 
 import "tfplan"
 import "strings"
-import "types"
+
 
 ##### Functions #####
 
@@ -42,79 +37,65 @@ find_resources_from_plan = func(type) {
   return resources
 }
 
-# Validate that all instances of specified type have a specified top-level
-# attribute that contains all members of a given list
-validate_attribute_contains_list = func(type, attribute, required_values) {
+# Find diff
+find_diff_from_plan = func(type) {
 
-  validated = true
+	resources = []
 
-  # Get all resource instances of the specified type
-  resource_instances = find_resources_from_plan(type)
+	for tfplan.module_paths as path {
+		for tfplan.module(path).resources[type] else {} as name, instances {
+			for instances as index, r {
+				resources += [r.diff["rest_api_id"]["new"]]
+			}
+		}
+	}
 
-  # Loop through the resource instances
-  for resource_instances as address, r {
-
-    # Skip resource instances that are being destroyed
-    # to avoid unnecessary policy violations.
-    # Used to be: if length(r.diff) == 0
-    if r.destroy and not r.requires_new {
-      print("Skipping resource", address, "that is being destroyed.")
-      continue
-    }
-
-    # Determine if the attribute is computed
-    # We check "attribute.%" and "attribute.#" because an
-    # attribute of type map or list won't show up in the diff
-    if (r.diff[attribute + ".%"].computed else false) or
-       (r.diff[attribute + ".#"].computed else false) {
-      print("Resource", address, "has attribute", attribute,
-            "that is computed.")
-      # If you want computed values to cause the policy to fail,
-      # uncomment the next line.
-      # validated = false
-    } else {
-      # Validate that the attribute is a list or a map
-      # but first check if r.applied[attribute] exists
-      if r.applied[attribute] else null is not null and
-         (types.type_of(r.applied[attribute]) is "list" or
-          types.type_of(r.applied[attribute]) is "map") {
-
-        # Evaluate each member of required_values list
-        for required_values as rv {
-          if r.applied[attribute] not contains rv {
-            print("Resource", address, "has attribute", attribute,
-                  "that is missing required value", rv, "from the list:",
-                  required_values)
-            validated = false
-          } // end rv
-        } // end required_values
-
-      } else {
-        print("Resource", address, "is missing attribute", attribute,
-              "or it is not a list or a map")
-        validated = false
-      } // end check that attribute is list or map
-
-    } // end computed check
-  } // end resource instances
-
-  return validated
+	return resources
 }
 
-### List of mandatory tags ###
-mandatory_tags = [
-  "Name",
-  "ttl",
-  "owner",
-]
+# Function to validate that encryption used
+validate_encryption = func() {
 
-### Rules ###
+	# Initialize booleans to true
+	# They will be set to false if any instances violate rules
+	result = {
+		"encrypted": true,
+	}
+
+	# Get all resources of specified type
+	resource_instances = find_resources_from_plan("aws_sqs_queue")
+
+	# Loop through the resource instances
+	for resource_instances as address, r {
+
+		# Skip resources that are being destroyed
+		# to avoid unnecessary policy violations.
+		# Used to be: if length(r.diff) == 0
+		if r.destroy and not r.requires_new {
+			print("Skipping resource", address, "that is being destroyed.")
+			continue
+		}
+
+		# Check whether server-side encryption is enabled
+		if length(r.applied.kms_master_key_id) else 0 == 0 {
+            print("SQS", address, "is not encrypted.")
+            print("Please enable server side encryption. Example:")
+            print("kms_master_key_id                 = \"alias/aws/sqs\"")
+            result["encrypted"] = false
+		}
+
+	} // end resource instances
+
+	# Return result with booleans which will be false if there were any violations
+	return result
+}
+
+##### Rules #####
 
 # Call the validation function
-tags_validated = validate_attribute_contains_list("aws_instance",
-                 "tags", mandatory_tags)
+validations = validate_encryption()
 
-#Main rule
+# Main rule
 main = rule {
-  tags_validated
+	validations["encrypted"]
 }
