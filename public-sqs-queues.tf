@@ -15,12 +15,7 @@ resource "aws_sqs_queue_policy" "test" {
       "Effect": "Allow",
       "Principal": "*",
       "Action": "sqs:SendMessage",
-      "Resource": "${aws_sqs_queue.q.arn}",
-      "Condition": {
-        "ArnEquals": {
-          "aws:SourceArn": "${aws_sns_topic.example.arn}"
-        }
-      }
+      "Resource": "${aws_sqs_queue.q.arn}"
     }
   ]
 }
