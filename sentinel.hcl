@@ -1,4 +1,4 @@
-policy "require-sqs-kms" {
+policy "forbid-public-sqs-queues" {
     enforcement_level = "hard-mandatory"
 }
 
