@@ -26,7 +26,7 @@ find_diff_from_plan = func(type) {
 	for tfplan.module_paths as path {
 		for tfplan.module(path).resources[type] else {} as name, instances {
 			for instances as index, r {
-				resources += [r.diff["id"]["new"]]
+				resources += [r.diff["queue_url"]["new"]]
 			}
 		}
 	}
