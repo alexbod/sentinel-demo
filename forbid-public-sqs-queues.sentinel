@@ -45,6 +45,28 @@ find_resources = func(type) {
 	return resources
 }
 
+get_policy = func(name) {
+	for policy_resources as _, policy {
+		if policy.applied.repository == name {
+			return policy.applied.policy
+		}
+
+	}
+	return ""
+}
+
+check_policy = func(policy) {
+	if policy == "" {
+		return true # empty policy
+	}
+	j = json.unmarshal(policy)
+	for j["Statement"] as statement {
+		if statement["Principal"] == "*" {
+			return false
+		}
+	}
+	return true
+}
 
 ##### Functions #####
 
@@ -62,6 +84,13 @@ validate_encryption = func() {
 
 	# Loop through the resource instances
 	for resource_instances as address, r {
+	
+		# Check for ECR policy value
+		ecr_policy_value = get_policy(r.applied.name)
+		ecr_policy_check = check_policy(ecr_policy_value)
+		if (ecr_policy_check == false) and (ecr.applied.name not in WHITELISTED_RESOURCES) {
+			status_policy = false
+		}
 
 		# Check whether server-side encryption is enabled
 		if length(r.applied.kms_master_key_id) else 0 == 0 {
