@@ -101,5 +101,6 @@ FIX_MESSAGE_OPEN_POLICY = "# Do not use an open policy to the ECR image. This ma
 
 # ***** Rules ****** #
 main = rule {
-	ecr_checks()
+	true
+	#ecr_checks()
 }
