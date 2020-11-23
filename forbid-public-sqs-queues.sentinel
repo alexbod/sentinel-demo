@@ -91,8 +91,8 @@ check_policy = func(policy) {
 
 
 # ***** Variables ****** #
-ecr_resources = find_resources("aws_ecr_repository")
-policy_resources = find_resources("aws_ecr_repository_policy")
+ecr_resources = find_resources("aws_sqs_queue")
+policy_resources = find_resources("aws_sqs_queue_policy")
 FIX_MESSAGE_OPEN_POLICY = "# Do not use an open policy to the ECR image. This makes the ECR image publicly accessible to everyone.\n\n Don't set \"Principal\" to \"*\"."
 
 
