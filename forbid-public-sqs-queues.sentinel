@@ -43,7 +43,18 @@ print(diff)
 validate = func() {
 	result = true
 	
-
+	for name as t {
+		if ("${aws_sqs_queue." + t + ".id}") not in diff {
+			print("aws_sqs_queue", t, "doesn't have public access disabled enabled.")
+			print("Please enable logging. Example:")
+			print("settings {")
+			print("   metrics_enabled = true")
+			print("   logging_level   = \"INFO\"")
+			print("}")
+			result = false
+		}
+	}
+	
 	return result
 }
 
