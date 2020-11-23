@@ -1,5 +1,5 @@
 resource "aws_sqs_queue" "q" {
-  name = "examplequeue"
+  name = "examplequeue_super_test"
 }
 
 resource "aws_sqs_queue_policy" "test" {
