@@ -96,9 +96,9 @@ validate_encryption = func() {
 }
 
 ##### Rules #####
+print(validate_encryption())
 
 # Main rule
 main = rule {
-	print(validate_encryption())
 	validate_encryption()
 }
