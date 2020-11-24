@@ -75,9 +75,7 @@ validate_encryption = func() {
 
 	# Initialize booleans to true
 	# They will be set to false if any instances violate rules
-	result = {
-		"encrypted": true,
-	}
+	result = true
 
 	# Get all resources of specified type
 	resource_instances = find_resources("aws_sqs_queue_policy")
@@ -93,7 +91,7 @@ validate_encryption = func() {
 		ecr_policy_check = check_policy(r.diff.policy.new)
 		print(ecr_policy_check)
 		if (ecr_policy_check == false) {
-			status_policy = false
+			result = false
 		}
 		
 		/*
@@ -113,10 +111,7 @@ validate_encryption = func() {
 
 ##### Rules #####
 
-# Call the validation function
-validations = validate_encryption()
-
 # Main rule
 main = rule {
-	validations["encrypted"]
+	validate_encryption()
 }
