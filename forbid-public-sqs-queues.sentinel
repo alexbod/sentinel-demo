@@ -73,10 +73,6 @@ check_policy = func(policy) {
 # Function to validate that encryption is enabled
 validate_encryption = func() {
 
-	# Initialize booleans to true
-	# They will be set to false if any instances violate rules
-	result = true
-
 	# Get all resources of specified type
 	resource_instances = find_resources("aws_sqs_queue_policy")
 	
@@ -86,27 +82,17 @@ validate_encryption = func() {
 	for resource_instances as address, r {
 	
 		# Check for ECR policy value
-		#ecr_policy_value = get_policy(r.applied.name)
 		print(r.diff.policy.new)
 		ecr_policy_check = check_policy(r.diff.policy.new)
 		print(ecr_policy_check)
 		if (ecr_policy_check == false) {
-			result = false
+			return false
 		}
-		
-		/*
-		# Check whether server-side encryption is enabled
-		if length(r.applied.kms_master_key_id) else 0 == 0 {
-			print("SQS", address, "is not encrypted.")
-			print("Please enable server side encryption. Example:")
-			print("kms_master_key_id                 = \"alias/aws/sqs\"")
-			result["encrypted"] = false
-		}*/
 
 	} // end resource instances
 
 	# Return result with booleans which will be false if there were any violations
-	return result
+	return true
 }
 
 ##### Rules #####
