@@ -2,7 +2,7 @@ resource "aws_sqs_queue" "q" {
   name = "examplequeue_super_test"
 }
 
-/*
+
 resource "aws_sqs_queue_policy" "test" {
   queue_url = "${aws_sqs_queue.q.id}"
 
@@ -22,4 +22,4 @@ resource "aws_sqs_queue_policy" "test" {
 }
 POLICY
 }
-*/
+/**/
