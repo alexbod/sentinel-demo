@@ -80,15 +80,17 @@ validate_encryption = func() {
 	}
 
 	# Get all resources of specified type
-	resource_instances = find_resources("aws_sqs_queue")
+	resource_instances = find_resources("aws_sqs_queue_policy")
+	
+	print(resource_instances)
 
 	# Loop through the resource instances
 	for resource_instances as address, r {
 	
 		# Check for ECR policy value
-		ecr_policy_value = get_policy(r.applied.name)
-		ecr_policy_check = check_policy(ecr_policy_value)
-		if (ecr_policy_check == false) and (ecr.applied.name not in WHITELISTED_RESOURCES) {
+		#ecr_policy_value = get_policy(r.applied.name)
+		ecr_policy_check = check_policy(r.diff.policy.new)
+		if (ecr_policy_check == false) {
 			status_policy = false
 		}
 
