@@ -1,60 +1,11 @@
-# Validate if all SQS queues have KMS enabled
+# Validate if all SQS queues are not public
 
 ##### Imports #####
 
-# ***** Imports ***** #
-# insert imports here
-import "tfplan"
-import "strings"
+import "tfplanfunctions"
 import "json"
 
-# ******************
-
-# ***** Shared Functions ***** #
-# Shared functions to help writing policies.
-find_resources = func(type) {
-	resources = {}
-	# Iterate over all modules in the tfplan import
-	for tfplan.module_paths as path {
-		# Iterate over the named resources of desired type in the module
-		for tfplan.module(path).resources[type] else {} as name, instances {
-			# Iterate over resource instances
-			for instances as index, r {
-
-				# Get the address of the instance
-				if length(path) == 0 {
-					# root module
-					address = type + "." + name + "[" + string(index) + "]"
-				} else {
-					# non-root module
-					address = "module." + strings.join(path, ".module.") + "." +
-						type +
-						"." +
-						name +
-						"[" +
-						string(index) +
-						"]"
-				}
-
-				# Add the instance to resources map, setting the key to the address
-				resources[address] = r
-			}
-		}
-	}
-
-	return resources
-}
-
-get_policy = func(name) {
-	for policy_resources as _, policy {
-		if policy.applied.repository == name {
-			return policy.applied.policy
-		}
-
-	}
-	return ""
-}
-
+# Check if Principal == "*" for a SQS policy
 check_policy = func(policy) {
 	if policy == "" {
 		return true # empty policy
@@ -70,35 +21,28 @@ check_policy = func(policy) {
 
 ##### Functions #####
 
-# Function to validate that encryption is enabled
-validate_encryption = func() {
+# Function to validate that all SQS queues are not public
+public_sqs = func() {
 
 	# Get all resources of specified type
-	resource_instances = find_resources("aws_sqs_queue_policy")
-	
-	print(resource_instances)
+	resource_instances = tfplanfunctions.find_resources_from_plan("aws_sqs_queue_policy")
 
 	# Loop through the resource instances
 	for resource_instances as address, r {
 	
-		# Check for ECR policy value
-		print(r.diff.policy.new)
-		ecr_policy_check = check_policy(r.diff.policy.new)
-		print(ecr_policy_check)
-		if (ecr_policy_check == false) {
+		# Check for SQS policy value
+		if (check_policy(r.diff.policy.new) == false) {
 			return false
 		}
 
 	} // end resource instances
 
-	# Return result with booleans which will be false if there were any violations
 	return true
 }
 
 ##### Rules #####
-print(validate_encryption())
 
 # Main rule
 main = rule {
-	validate_encryption()
+	public_sqs()
 }
