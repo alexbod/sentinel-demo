@@ -6,7 +6,7 @@ resource "aws_sqs_queue" "q" {
 resource "aws_sqs_queue_policy" "test" {
   queue_url = "${aws_sqs_queue.q.id}"
 
-  policy = "{data.template_file.user_service_queue_policy.rendered}"
+  policy = "${data.template_file.user_service_queue_policy.rendered}"
   
 /*
   policy = <<POLICY
@@ -25,5 +25,9 @@ resource "aws_sqs_queue_policy" "test" {
 }
 POLICY
 */
+}
+
+data "template_file" "user_service_queue_policy" {
+  template = "${file("user_service_sqs_policy.tpl")}"
 }
 
