@@ -104,6 +104,9 @@ check_policy = func(policy) {
 		print(find_datasources_from_plan("template_file"))
 		print(find_datasources_from_plan("aws_sqs_queue_policy"))
 		
+		# Skip the first element "data"
+		print(find_datasources_from_plan(policy_object_clean_array[1]))
+		
 		
 		
 		return true
