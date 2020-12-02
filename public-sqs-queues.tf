@@ -29,5 +29,10 @@ POLICY
 
 data "template_file" "user_service_queue_policy" {
   template = "${file("user_service_sqs_policy.tpl")}"
+  
+  vars {
+    /*snsTopics         = "${join(",", local.userserviceTopics)}"*/
+    sqsUserServiceARN = "${aws_sqs_queue.q.arn}"
+  }
 }
 
