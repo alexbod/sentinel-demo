@@ -97,8 +97,10 @@ check_policy = func(policy) {
 		resource_instances_policy = find_name_from_plan("user_service_queue_policy")
 		print(resource_instances_policy)
 		
-		print(find_datasources_from_plan("aws_ami"))
+		print(find_datasources_from_plan("data"))
 		print(find_datasources_from_plan("template_file"))
+		print(find_datasources_from_plan("aws_sqs_queue_policy"))
+		
 		
 		
 		return true
