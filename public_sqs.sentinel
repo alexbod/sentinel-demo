@@ -6,6 +6,19 @@ import "tfplan"
 import "json"
 import "strings"
 
+find_name_from_plan = func(type) {
+
+	resources = []
+
+	for tfplan.module_paths as path {
+		for tfplan.module(path).resources[type] else {} as name, instances {
+			resources += [name]
+		}
+	}
+
+	return resources
+}
+
 find_resources = func(type) {
 	resources = {}
 	# Iterate over all modules in the tfplan import
@@ -50,7 +63,7 @@ check_policy = func(policy) {
 		print(policy)
 		print(policy[2 : length(policy) - 1])
 		
-		resource_instances_policy = find_resources("data")
+		resource_instances_policy = find_name_from_plan("user_service_queue_policy")
 		print(resource_instances_policy)
 		
 		
