@@ -50,7 +50,7 @@ check_policy = func(policy) {
 		print(policy)
 		print(policy[2 : length(policy) - 1])
 		
-		resource_instances_policy = find_resources("root")
+		resource_instances_policy = find_resources("data")
 		print(resource_instances_policy)
 		
 		
