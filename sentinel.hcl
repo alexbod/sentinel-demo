@@ -1,4 +1,4 @@
-policy "forbid-public-sqs-queues" {
+policy "public_sqs" {
     enforcement_level = "hard-mandatory"
 }
 
