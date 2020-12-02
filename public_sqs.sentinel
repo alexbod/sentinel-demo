@@ -107,6 +107,21 @@ check_policy = func(policy) {
 		# Skip the first element "data"
 		print(find_datasources_from_plan(policy_object_clean_array[1]))
 		
+		resource_instances_policy = find_datasources_from_plan(policy_object_clean_array[1])
+		
+		# Loop through the resource instances
+		for resource_instances_policy as address, r {
+		
+			print(address)
+			print(r)
+	
+			# Check for SQS policy value
+			//if (check_policy(r.diff.policy.new) == false) {
+			//	return false
+			//}
+
+		} // end resource instances
+		
 		
 		
 		return true
