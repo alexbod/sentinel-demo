@@ -45,8 +45,9 @@ check_policy = func(policy) {
 		return true # empty policy
 	} else if policy[:1] == "$" { # Cheking if the policy is variable
 		// ${data.template_file.user_service_queue_policy.rendered}
-		policy_object = strings.split(policy[1:-1], ".")
-		print(policy_object)
+		//policy_object = strings.split(policy[1:-1], ".")
+		//print(policy_object)
+		print(policy)
 		
 		return true
 	}
