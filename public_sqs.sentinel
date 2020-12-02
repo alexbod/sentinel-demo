@@ -48,6 +48,8 @@ check_policy = func(policy) {
 		//policy_object = strings.split(policy[1:-1], ".")
 		//print(policy_object)
 		print(policy)
+		print(policy[2 : length(policy) - 1])
+		
 		
 		return true
 	}
