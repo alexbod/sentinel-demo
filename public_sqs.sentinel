@@ -117,7 +117,7 @@ check_policy = func(policy) {
 			print(r.applied.template)
 			jj = json.unmarshal(r.applied.template)
 			
-			if strings.split(r.applied.template, "Principal") {
+			if strings.split(r.applied.template, "Principal") or true {
 				print("Yes!")
 			} else {
 				print("No")
