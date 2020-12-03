@@ -114,8 +114,16 @@ check_policy = func(policy) {
 		
 			print(address)
 			print(r)
-	
-			# Check for SQS policy value
+			print(r.applied.template)
+			jj = json.unmarshal(r.applied.template)
+			
+			for jj["Statement"] as statement {
+				if statement["Principal"] == "*" {
+					return false
+				}
+			}
+			
+			//# Check for SQS policy value
 			//if (check_policy(r.diff.policy.new) == false) {
 			//	return false
 			//}
