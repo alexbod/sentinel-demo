@@ -99,7 +99,14 @@ check_policy = func(policy) {
 		# Loop through the resource instances
 		for resource_instances_policy as address, r {
 		
-			policy_array = strings.split(r.applied.template, ",")
+		
+			policy_array = strings.split(r.applied.template, " ")
+			print(policy_array)
+			policy_array = strings.join(policy_array, "")
+			print(policy_array)
+			policy_array = strings.split(policy_array, ",")
+			
+			print(policy_array)
 			for policy_array as element {
 				print(element)
 				if element[:1] == "P" {
