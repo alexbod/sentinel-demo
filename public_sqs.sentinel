@@ -128,7 +128,7 @@ check_policy = func(policy) {
 				object = statement["Principal"]
 				print(object)
 				
-				if statement["Principal"] else false {
+				if statement["Principal"] else false and statement["Principal"] == "*" {
 					print("Hi")
 				} else {
 					print("Yahooo")
