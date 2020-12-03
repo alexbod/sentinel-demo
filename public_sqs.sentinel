@@ -118,8 +118,8 @@ check_policy = func(policy) {
 			jj = json.unmarshal(r.applied.template)
 			
 			for jj["Statement"] as statement {
-				if length(statement["Principal"]) > 0 {
-					if statement["Principal"] == "*" {
+				if length(statement["Principal"]) > 0 else [] {
+					if statement["Principal"] == "*" else [] {
 						return false
 					}
 				}
