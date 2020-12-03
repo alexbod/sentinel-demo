@@ -101,14 +101,14 @@ check_policy = func(policy) {
 		
 		
 			policy_array = strings.split(r.applied.template, " ")
-			print(policy_array)
+			//print(policy_array)
 			policy_array = strings.join(policy_array, "")
-			print(policy_array)
+			//print(policy_array)
 			policy_array = strings.split(policy_array, ",")
 			
-			print(policy_array)
+			//print(policy_array)
 			for policy_array as element {
-				print(element)
+				//print(element)
 				print(element[:2])
 				if element[:2] == "\"P" {
 					print("Super hi")
