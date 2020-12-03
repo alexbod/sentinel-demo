@@ -100,8 +100,8 @@ check_policy = func(policy) {
 		for resource_instances_policy as address, r {
 		
 		
-			policy_array = strings.split(r.applied.template, " ")
-			//print(policy_array)
+			policy_array = strings.split(r.applied.template, "\n")
+			print(policy_array)
 			policy_array = strings.join(policy_array, "")
 			//print(policy_array)
 			policy_array = strings.split(policy_array, ",")
