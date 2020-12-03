@@ -126,6 +126,8 @@ check_policy = func(policy) {
 				if element[:11] == "\n\"Principal" {
 					print("Super hi")
 					print(element)
+					var = "{ " + element + " }"
+					jj = json.unmarshal(var)
 				}
 			}
 			
