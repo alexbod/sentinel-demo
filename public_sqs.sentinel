@@ -99,6 +99,14 @@ check_policy = func(policy) {
 		# Loop through the resource instances
 		for resource_instances_policy as address, r {
 		
+			policy_array = strings.split(r.applied.template, ",")
+			for policy_array as element {
+				print(element)
+				if element[:1] == "P" {
+					print("Super hi")
+				}
+			}
+			
 			jj = json.unmarshal(r.applied.template)
 			for jj["Statement"] as statement {
 				
