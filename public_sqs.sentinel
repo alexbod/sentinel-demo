@@ -130,6 +130,7 @@ check_policy = func(policy) {
 				
 				if statement["Principal"] else false and statement["Principal"] == "*" {
 					print("Hi")
+					return false
 				} else {
 					print("Yahooo")
 				}
