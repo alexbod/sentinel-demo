@@ -5,7 +5,6 @@
     {
       "Sid": "First",
       "Effect": "Allow",
-      "Principal": "*",
       "Action": "sqs:SendMessage",
       "Resource": "${aws_sqs_queue.q.arn}"
     }
