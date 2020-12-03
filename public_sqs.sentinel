@@ -128,9 +128,15 @@ check_policy = func(policy) {
 					print(element)
 					var = "{ " + element + " }"
 					jj = json.unmarshal(var)
+					if jj["Principal"] == "*" {
+						print("It works")
+						return false
+					}
+					
 				}
 			}
 			
+			/*
 			jj = json.unmarshal(r.applied.template)
 			for jj["Statement"] as statement {
 				
@@ -144,7 +150,7 @@ check_policy = func(policy) {
 				}
 				
 				
-			}
+			}*/
 			
 
 		} // end resource instances
