@@ -125,11 +125,14 @@ check_policy = func(policy) {
 			
 			for jj["Statement"] as statement {
 			
-				if statement["Principal"] else "default" {
-					print("Hi")
-				} else {
-					print("hiiiiii")
-				}
+				object = statement["Principal"]
+				print(object)
+				
+				//if statement["Principal"] else "default" {
+				//	print("Hi")
+				//} else {
+				//	print("hiiiiii")
+				//}
 				
 				//if statement["Principal"] else 0 == 0 {
 					//return false
