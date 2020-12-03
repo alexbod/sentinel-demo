@@ -128,7 +128,12 @@ check_policy = func(policy) {
 				object = statement["Principal"]
 				print(object)
 				
-				if statement["Principal"] else false and statement["Principal"] == "*" {
+				check_principal = statement["Principal"] else ""
+
+				
+				//if statement["Principal"] else false and statement["Principal"] == "*" {
+				
+				if length(check_principal) > 0 {
 					print("Hi")
 					return false
 				} else {
