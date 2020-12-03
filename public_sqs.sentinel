@@ -128,8 +128,10 @@ check_policy = func(policy) {
 				object = statement["Principal"]
 				print(object)
 				
-				if object else "default" {
+				if object else false {
 					print("Hi")
+				} else {
+					print("Yahooo")
 				}
 				
 				//undefined or true       = true
