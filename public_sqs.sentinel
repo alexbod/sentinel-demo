@@ -125,6 +125,7 @@ check_policy = func(policy) {
 				//if element[:3] == "\n\"P" { // works
 				if element[:11] == "\n\"Principal" {
 					print("Super hi")
+					print(element)
 				}
 			}
 			
