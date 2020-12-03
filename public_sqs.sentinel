@@ -109,7 +109,7 @@ check_policy = func(policy) {
 			//print(policy_array)
 			for policy_array as element {
 				//print(element)
-				print(element[:2])
+				print(element[:3])
 				if element[:2] == "\"P" {
 					print("Super hi")
 				}
