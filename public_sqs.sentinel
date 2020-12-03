@@ -88,51 +88,22 @@ check_policy = func(policy) {
 	if policy == "" {
 		return true # empty policy
 	} else if policy[:1] == "$" { # Cheking if the policy is variable
-		// ${data.template_file.user_service_queue_policy.rendered}
-		//policy_object = strings.split(policy[1:-1], ".")
-		//print(policy_object)
-		print(policy)
-		print(policy[2 : length(policy) - 1])
-		policy_object_clean = policy[2 : length(policy) - 1]
+	
+		# Cutting {$ and } symbols in the beggining and in the end because it's a variable
+		policy_object_clean = policy[2 : length(policy) - 1] 
 		policy_object_clean_array = strings.split(policy_object_clean, ".")
-		print(policy_object_clean_array)
 		
-		resource_instances_policy = find_name_from_plan("user_service_queue_policy")
-		print(resource_instances_policy)
-		
-		print(find_datasources_from_plan("data"))
-		print(find_datasources_from_plan("template_file"))
-		print(find_datasources_from_plan("aws_sqs_queue_policy"))
-		
-		# Skip the first element "data"
-		print(find_datasources_from_plan(policy_object_clean_array[1]))
-		
+		# Find datasource and take the second element because the first one is "root"
 		resource_instances_policy = find_datasources_from_plan(policy_object_clean_array[1])
 		
 		# Loop through the resource instances
 		for resource_instances_policy as address, r {
 		
-			print(address)
-			print(r)
-			print(r.applied.template)
 			jj = json.unmarshal(r.applied.template)
-			
-			//if strings.split(r.applied.template, "Principal") or true {
-			//	print("Yes!")
-			//} else {
-			//	print("No")
-			//}
-			
 			for jj["Statement"] as statement {
-			
-				object = statement["Principal"]
-				print(object)
 				
+				# Validate is "Principal" exists and == *
 				check_principal = statement["Principal"] else ""
-
-				
-				//if statement["Principal"] else false and statement["Principal"] == "*" {
-				
 				if length(check_principal) > 0 and statement["Principal"] == "*" {
 					print("Hi")
 					return false
@@ -140,29 +111,9 @@ check_policy = func(policy) {
 					print("Yahooo")
 				}
 				
-				//undefined or true       = true
-				
-				//if statement["Principal"] else "default" {
-				//	print("Hi")
-				//} else {
-				//	print("hiiiiii")
-				//}
-				
-				//if statement["Principal"] else 0 == 0 {
-					//return false
-				//}
-				//if length(statement["Principal"]) > 0 else [] {
-					//if statement["Principal"] == "*" else [] {
-					//	return false
-					//}
-				//}
 				
 			}
 			
-			//# Check for SQS policy value
-			//if (check_policy(r.diff.policy.new) == false) {
-			//	return false
-			//}
 
 		} // end resource instances
 		
