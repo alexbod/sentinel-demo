@@ -1,5 +1,6 @@
 resource "aws_elasticache_replication_group" "main_redis" {
   replication_group_id = "my-redis"
+  replication_group_description = "test description"
   engine = "redis"
   engine_version = "2.8.23"
   node_type = "cache.m3.medium"
