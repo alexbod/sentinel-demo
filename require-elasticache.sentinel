@@ -48,7 +48,7 @@ print(diff_logging_level)
 
 validate = func() {
 	for diff_logging_level as tl {
-		if tl != true {
+		if tl != "true" {
 			return false
 		}
 	}
