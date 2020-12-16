@@ -1,8 +1,12 @@
-policy "public_sqs" {
+policy "require-elasticache" {
     enforcement_level = "hard-mandatory"
 }
 
 /*
+policy "public_sqs" {
+    enforcement_level = "hard-mandatory"
+}
+
 module "timezone" {
   source = "./modules/timezone.sentinel"
 }
