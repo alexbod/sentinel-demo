@@ -1,6 +1,7 @@
 import "strings"
 import "tfplan"
 
+# Find all name of a specific type from all modules using the tfplan import
 find_name_from_plan = func(type) {
 	resources = []
 	for tfplan.module_paths as path {
@@ -11,8 +12,8 @@ find_name_from_plan = func(type) {
 	return resources
 }
 
-# Find all new zone_id of a aws_ from all modules using the tfplan import
-find_zoneid_from_plan = func(type) {
+# Find diff
+find_diff_from_plan = func(type) {
 	resources = []
 	for tfplan.module_paths as path {
 		for tfplan.module(path).resources[type] else {} as name, instances {
@@ -24,19 +25,45 @@ find_zoneid_from_plan = func(type) {
 	return resources
 }
 
-zones_name = find_name_from_plan("aws_elasticache_cluster")
-zoneslog = find_zoneid_from_plan("aws_elasticache_replication_group")
-zoneslog_validated = func() {
-	for zones_name as t {
-    #${aws_elasticache_replication_group.main_redis.id}
-		if ("${aws_elasticache_replication_group." + t + ".id}") not in zoneslog {
-			print("Zone", t, "did not have logging enabled!")
+# Find diff
+find_diff_logging_level_from_plan = func(type) {
+	resources = []
+	for tfplan.module_paths as path {
+		for tfplan.module(path).resources[type] else {} as name, instances {
+			for instances as index, r {
+				resources += [r.diff["transit_encryption_enabled"]["new"]]
+			}
+		}
+	}
+	return resources
+}
+
+name = find_name_from_plan("aws_elasticache_cluster")
+diff = find_diff_from_plan("aws_elasticache_replication_group")
+diff_logging_level = find_diff_logging_level_from_plan("aws_elasticache_replication_group")
+
+validate = func() {
+	for diff_logging_level as tl {
+		if tl != true {
 			return false
 		}
 	}
+	for name as t {
+		# ${aws_elasticache_replication_group.main_redis.id}
+		if ("${aws_elasticache_replication_group." + t + ".id}") not in diff {
+			print("aws_api_gateway_rest_api", t, "doesn't have logging enabled.")
+			print("Please enable logging. Example:")
+			print("settings {")
+			print("   metrics_enabled = true")
+			print("   logging_level   = \"INFO\"")
+			print("}")
+			return false
+		}
+	}
+
 	return true
 }
 
 main = rule {
-	zoneslog_validated()
+	validate()
 }
