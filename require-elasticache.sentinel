@@ -52,6 +52,7 @@ validate = func() {
 			return false
 		}
 	}
+	print("Yesssss")
 	for name as t {
 		# ${aws_elasticache_replication_group.main_redis.id}
 		print(t)
