@@ -42,7 +42,7 @@ name = find_name_from_plan("aws_elasticache_cluster")
 diff = find_diff_from_plan("aws_elasticache_replication_group")
 diff_logging_level = find_diff_logging_level_from_plan("aws_elasticache_replication_group")
 print(name)
-print(diff)
+print("diff = ", diff)
 print(diff_logging_level)
 
 
