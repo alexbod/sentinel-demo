@@ -1,0 +1,42 @@
+import "strings"
+import "tfplan"
+
+find_name_from_plan = func(type) {
+	resources = []
+	for tfplan.module_paths as path {
+		for tfplan.module(path).resources[type] else {} as name, instances {
+			resources += [name]
+		}
+	}
+	return resources
+}
+
+# Find all new zone_id of a aws_ from all modules using the tfplan import
+find_zoneid_from_plan = func(type) {
+	resources = []
+	for tfplan.module_paths as path {
+		for tfplan.module(path).resources[type] else {} as name, instances {
+			for instances as index, r {
+				resources += [r.diff["id"]["new"]]
+			}
+		}
+	}
+	return resources
+}
+
+zones_name = find_name_from_plan("aws_elasticache_cluster")
+zoneslog = find_zoneid_from_plan("aws_elasticache_replication_group")
+zoneslog_validated = func() {
+	for zones_name as t {
+    #${aws_elasticache_replication_group.main_redis.id}
+		if ("${aws_elasticache_replication_group." + t + ".id}") not in zoneslog {
+			print("Zone", t, "did not have logging enabled!")
+			return false
+		}
+	}
+	return true
+}
+
+main = rule {
+	zoneslog_validated()
+}
