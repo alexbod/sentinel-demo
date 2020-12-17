@@ -57,15 +57,17 @@ print(diff_logging_level)
 
 
 validate = func() {
-	for diff as tl {
-		print(tl)
-		if tl != "" {
+	for diff as pl {
+		print(pl)
+		if pl != "" {
+			print("Yes1")
 			return false
 		}
 	}
 	
 	for diff_logging_level as tl {
 		if tl != "true" {
+			print("Yes2")
 			return false
 		}
 	}
@@ -73,6 +75,7 @@ validate = func() {
 		# ${aws_elasticache_replication_group.main_redis.id}
 		print("t = ", t)
 		if ("${aws_elasticache_replication_group." + t + ".id}") not in diff {
+			print("Yes3")
 			print("aws_api_gateway_rest_api", t, "doesn't have logging enabled.")
 			print("Please enable logging. Example:")
 			print("settings {")
