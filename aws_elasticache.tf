@@ -23,16 +23,16 @@ resource "aws_elasticache_cluster" "main_redis_001" {
   apply_immediately = true
 }
 
-
-
-
-/*
-  
 resource "aws_elasticache_cluster" "main_redis_002" {
   cluster_id = "my-redis-001"
   availability_zone = "us-east-1b"
   apply_immediately = true
 }
+
+
+/*
+  
+
 
 resource "aws_elasticache_cluster" "main_redis_002" {
   cluster_id = "my-redis-002"
