@@ -70,6 +70,9 @@ validate = func() {
 			return false
 		}
 	}
+	resource_instances = find_resources_from_plan("aws_elasticache_cluster")
+	print(resource_instances)
+	
 	for name as t {
 		# ${aws_elasticache_replication_group.main_redis.id}
 		print("t = ", t)
