@@ -1,127 +1,67 @@
+# This policy validates if VPCs have flow logs configured
+
+##### Imports #####
+
+import "tfconfig"
 import "strings"
-import "tfplan"
+import "types"
 
-find_raw_resources_from_plan = func(type) {
+##### Functions #####
+
+# Find all resources of specific type from all modules using the tfconfig import
+find_resources_from_config = func(type) {
+
   resources = {}
-  for tfplan.module_paths as path {
+
+  # Iterate over all modules in the tfconfig import
+  for tfconfig.module_paths as path {
     # Iterate over the named resources of desired type in the module
-    for tfplan.module(path).resources[type] else {} as name, instances {
-      # Iterate over resource instances
-      for instances as index, r {
-        # Skip resources that are being destroyed
-        # to avoid unnecessary policy violations.
-        # Used to be: if length(r.diff) == 0
-        if r.destroy and not r.requires_new {
-          continue
-        }
+    for tfconfig.module(path).resources[type] else {} as name, r {
 
-        # Get the address of the instance
-        if length(path) == 0 {
-          # root module
-          address = type + "." + name + "[" + string(index) + "]"
-        } else {
-          # non-root module
-          address = "module." + strings.join(path, ".module.") + "." +
-                    type + "." + name + "[" + string(index) + "]"
-        }
-
-        resources[address] = r
+      # Get the address of the resource
+      if length(path) == 0 {
+        # root module
+        address = type + "." + name
+      } else {
+        # non-root module
+        address = "module." + strings.join(path, ".module.") + "." +
+                  type + "." + name
       }
+
+      # Add the resource to resources map, setting the key to the address
+      resources[address] = r
     }
   }
 
   return resources
 }
 
-# Find all resources of a specific type from all modules using the tfplan import
-find_resources_from_plan = func(type) {
-  resources = find_raw_resources_from_plan(type)
-  resource_map = {}
-  for resources as address, r {
-    current_resource = null
-    if "applied" in r {
-      current_resource = r.applied
-    } else if "diff" in r {
-      current_resource = r.diff
-    }
-    resource_map[address] = current_resource
+vpc_resources = find_resources_from_config("aws_elasticache_cluster")
+flow_resources = find_resources_from_config("aws_elasticache_replication_group")
+vpc_with_references = []
+vpc_flow_logs_results = true
+
+# Find VPCs with flow logs enabled
+for flow_resources as address, r_flow_addr {
+  for vpc_resources as address_vpc, r_vpc_addr {
+  	print(r_flow_addr)
+    # Trim Terraform vpc_id reference variable to get defined vpc address
+    #if r_flow_addr.config.vpc_id[2 : length(r_flow_addr.config.vpc_id) - 4] == address_vpc {
+      #append(vpc_with_references, address_vpc)
+    #}
   }
-  return resource_map
 }
 
-# Find all name of a specific type from all modules using the tfplan import
-find_name_from_plan = func(type) {
-	resources = []
-	for tfplan.module_paths as path {
-		for tfplan.module(path).resources[type] else {} as name, instances {
-			resources += [name]
-		}
-	}
-	return resources
+# Validate if all VPCs have flow logs enabled
+for vpc_resources as address, r {
+  if address not in vpc_with_references {
+    print(address, "doesn't have VPC Flow Logs configured. Example: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/flow_log.")
+    vpc_flow_logs_results = false
+  }
 }
 
-# Find diff
-find_diff_from_plan = func(type) {
-	resources = []
-	for tfplan.module_paths as path {
-		for tfplan.module(path).resources[type] else {} as name, instances {
-			for instances as index, r {
-				resources += [r.diff["replication_group_id"]["new"]]
-			}
-		}
-	}
-	return resources
-}
+##### Rules #####
 
-# Find diff
-find_diff_logging_level_from_plan = func(type) {
-	resources = []
-	for tfplan.module_paths as path {
-		for tfplan.module(path).resources[type] else {} as name, instances {
-			for instances as index, r {
-				resources += [r.diff["transit_encryption_enabled"]["new"]]
-			}
-		}
-	}
-	return resources
-}
-
-name = find_name_from_plan("aws_elasticache_replication_group")
-print("name = ", name)
-diff = find_diff_from_plan("aws_elasticache_cluster")
-print("diff = ", diff)
-diff_logging_level = find_diff_logging_level_from_plan("aws_elasticache_replication_group")
-print("diff_logging_level = ", diff_logging_level)
-
-print(diff_logging_level)
-
-
-validate = func() {
-	for diff_logging_level as tl {
-		if tl != "true" {
-			return false
-		}
-	}
-	resource_instances = find_resources_from_plan("aws_elasticache_cluster")
-	print(resource_instances)
-	
-	for name as t {
-		# ${aws_elasticache_replication_group.main_redis.id}
-		print("t = ", t)
-		if ("${aws_elasticache_replication_group." + t + ".id}") not in diff {
-			print("aws_api_gateway_rest_api", t, "doesn't have logging enabled.")
-			print("Please enable logging. Example:")
-			print("settings {")
-			print("   metrics_enabled = true")
-			print("   logging_level   = \"INFO\"")
-			print("}")
-			return false
-		}
-	}
-
-	return true
-}
-
-main = rule {
-	validate()
+main = rule { 
+    vpc_flow_logs_results
 }
