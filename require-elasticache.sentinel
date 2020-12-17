@@ -58,13 +58,12 @@ validate = func() {
 	}
 	for name_cluster as t {
 		print("t = ", t)
-		
-		
+
 		# ${aws_elasticache_replication_group.main_redis.id}
-		#if ("${aws_elasticache_replication_group." + t + ".id}") not in diff {
-			#print("t, "doesn't have logging enabled.")
-			#return false
-		#}
+		if ("${aws_elasticache_replication_group." + t + ".id}") not in diff {
+			print("t, "doesn't have logging enabled.")
+			return false
+		}
 	}
 
 	return true
