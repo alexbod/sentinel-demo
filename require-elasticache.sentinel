@@ -56,8 +56,7 @@ find_diff_logging_level_from_plan = func(type) {
 	return resources
 }
 
-resource_instances = find_resources_from_plan("aws_elasticache_cluster")
-print("resource_instances = ", resource_instances)
+
 
 name = find_name_from_plan("aws_elasticache_replication_group")
 print("name = ", name)
