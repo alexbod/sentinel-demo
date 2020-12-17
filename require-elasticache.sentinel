@@ -1,6 +1,24 @@
 import "strings"
 import "tfplan"
 
+
+# Find all resources of a specific type from all modules using the tfplan import
+find_resources_from_plan = func(type) {
+  resources = find_raw_resources_from_plan(type)
+  resource_map = {}
+  for resources as address, r {
+    current_resource = null
+    if "applied" in r {
+      current_resource = r.applied
+    } else if "diff" in r {
+      current_resource = r.diff
+    }
+    resource_map[address] = current_resource
+  }
+  return resource_map
+}
+
+
 # Find all name of a specific type from all modules using the tfplan import
 find_name_from_plan = func(type) {
 	resources = []
@@ -37,6 +55,9 @@ find_diff_logging_level_from_plan = func(type) {
 	}
 	return resources
 }
+
+resource_instances = find_resources_from_plan("aws_elasticache_cluster")
+print("resource_instances = ", resource_instances)
 
 name = find_name_from_plan("aws_elasticache_replication_group")
 print("name = ", name)
