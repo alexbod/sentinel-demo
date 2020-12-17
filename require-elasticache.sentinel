@@ -19,7 +19,7 @@ find_diff_from_plan = func(type) {
 		for tfplan.module(path).resources[type] else {} as name, instances {
 			for instances as index, r {
 				if r.diff["replication_group_id"]["new"] == "" {
-					print "Empty"
+					print("Empty")
 				}
 				
         			print("In search diff = ", r.diff["replication_group_id"]["new"])
