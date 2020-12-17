@@ -59,7 +59,7 @@ print(diff_logging_level)
 validate = func() {
 	for diff as pl {
 		print(pl)
-		if pl != "" {
+		if pl == "" {
 			print("Yes1")
 			return false
 		}
