@@ -11,7 +11,7 @@ resource "aws_elasticache_replication_group" "main_redis" {
   parameter_group_name = "default.redis2.8"
   at_rest_encryption_enabled = false
   transit_encryption_enabled = true
-  auth_token = "some_token"
+  auth_token = "some_token_0000000000000000000000000000"
   maintenance_window = "sun:06:00-sun:07:00"
   auto_minor_version_upgrade = false
   apply_immediately = true
