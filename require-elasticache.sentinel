@@ -1,6 +1,8 @@
 import "strings"
 import "tfplan"
 
+emtpy_replication_group_id = false
+
 # Find all name of a specific type from all modules using the tfplan import
 find_name_from_plan = func(type) {
 	resources = []
@@ -20,6 +22,7 @@ find_diff_from_plan = func(type) {
 			for instances as index, r {
 				if r.diff["replication_group_id"]["new"] == "" {
 					print("Empty")
+					emtpy_replication_group_id = true
 				}
 				
         			print("In search diff = ", r.diff["replication_group_id"]["new"])
@@ -54,6 +57,13 @@ print(diff_logging_level)
 
 
 validate = func() {
+	for diff as tl {
+		print(tl)
+		if tl != "" {
+			return false
+		}
+	}
+	
 	for diff_logging_level as tl {
 		if tl != "true" {
 			return false
