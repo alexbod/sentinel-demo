@@ -38,12 +38,13 @@ find_diff_logging_level_from_plan = func(type) {
 	return resources
 }
 
-name = find_name_from_plan("aws_elasticache_cluster")
-#diff = find_diff_from_plan("aws_elasticache_replication_group")
-diff = find_name_from_plan("aws_elasticache_replication_group")
-diff_logging_level = find_diff_logging_level_from_plan("aws_elasticache_replication_group")
-print(name)
+name = find_name_from_plan("aws_elasticache_replication_group")
+print("name = ", name)
+diff = find_diff_from_plan("aws_elasticache_cluster")
 print("diff = ", diff)
+diff_logging_level = find_diff_logging_level_from_plan("aws_elasticache_replication_group")
+print("diff_logging_level = ", diff_logging_level)
+
 print(diff_logging_level)
 
 
@@ -53,10 +54,9 @@ validate = func() {
 			return false
 		}
 	}
-	print("Yesssss")
 	for name as t {
 		# ${aws_elasticache_replication_group.main_redis.id}
-		print(t)
+		print("t = ", t)
 		if ("${aws_elasticache_replication_group." + t + ".id}") not in diff {
 			print("aws_api_gateway_rest_api", t, "doesn't have logging enabled.")
 			print("Please enable logging. Example:")
