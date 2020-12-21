@@ -9,7 +9,7 @@ resource "aws_elasticache_replication_group" "main_redis" {
   security_group_ids = ["sg-..."]
   automatic_failover_enabled = true
   parameter_group_name = "default.redis2.8"
-  at_rest_encryption_enabled = false
+  at_rest_encryption_enabled = true
   transit_encryption_enabled = true
   auth_token = "some_token_0000000000000000000000"
   kms_key_id = "1234abcd-12ab-34cd-56ef-1234567890ab"
@@ -27,7 +27,6 @@ resource "aws_elasticache_cluster" "main_redis_001" {
 
 resource "aws_elasticache_cluster" "main_redis_002" {
   cluster_id = "my-redis-001"
-  replication_group_id = "${aws_elasticache_replication_group.main_redis.id}"
   availability_zone = "us-east-1b"
   apply_immediately = true
 }
