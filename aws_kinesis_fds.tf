@@ -36,12 +36,8 @@ resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
   name        = "terraform-kinesis-firehose-test-stream"
   destination = "splunk"
   
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm     = "AES256"
-      }
-    }
+  server_side_encryption {
+    enabled = true
   }
 
   s3_configuration {
