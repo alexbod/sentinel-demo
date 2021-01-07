@@ -35,6 +35,14 @@ EOF
 resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
   name        = "terraform-kinesis-firehose-test-stream"
   destination = "splunk"
+  
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm     = "AES256"
+      }
+    }
+  }
 
   s3_configuration {
     role_arn           = "${aws_iam_role.firehose.arn}"
