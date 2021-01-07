@@ -1,3 +1,27 @@
+resource "aws_iam_role" "firehose" {
+  name = "test_role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+
+  tags = {
+    tag-key = "tag-value"
+  }
+}
+
 resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
   name        = "terraform-kinesis-firehose-test-stream"
   destination = "http_endpoint"
