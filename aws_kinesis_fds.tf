@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "bucket" {
+/*resource "aws_s3_bucket" "bucket" {
   bucket = "my-tf-test-bucket"
   acl    = "private"
 
@@ -55,7 +55,7 @@ resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
     hec_endpoint_type          = "Event"
     s3_backup_mode             = "FailedEventsOnly"
   }
-}
+}*/
 
 /*resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
   name        = "terraform-kinesis-firehose-test-stream"
